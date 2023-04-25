@@ -1,6 +1,7 @@
 #ifndef MAPLEENGINE_APP_HH
 #define MAPLEENGINE_APP_HH
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 class App {
@@ -10,6 +11,8 @@ public:
     void Launch();
 private:
     void RunApplication();
+    void Update();
+    void Render();
     bool ApplicationShouldClose();
     static void HandleKeyInput(GLFWwindow* window);
     static void HandleMouseMotion(GLFWwindow* window, double xPos, double yPos);
