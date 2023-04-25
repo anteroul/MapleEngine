@@ -17,6 +17,7 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, HandleMouseMotion);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glewInit();
 }
 
 App::~App()
@@ -35,11 +36,13 @@ void App::RunApplication()
     printf("Application is running.\n");
     glfwPollEvents();
     HandleKeyInput(window);
+    glClearColor(0.f, 0.f, 0.f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 bool App::ApplicationShouldClose()
 {
-    if (!glfwWindowShouldClose(window))
+    if (glfwWindowShouldClose(window))
         return true;
 
     return false;

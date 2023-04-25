@@ -14,9 +14,5 @@ find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 link_libraries(${GLEW_LIBRARY_DIRS})
 
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
-link_libraries(${SDL2_LIBRARY_DIRS})
-
 add_executable(MapleEngine src/entrypoint/main.cc src/App.hh src/App.cc)
-target_link_libraries(MapleEngine ${OPENGL_LIBRARIES} ${GLEW_LIBRARY_DIRS} -lglfw ${SDL2_LIBRARY_DIRS} ${lib/stb_image.h} ${lib/gltext.h})
+target_link_libraries(MapleEngine ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} -lglfw ${lib/stb_image.h} ${lib/gltext.h})
