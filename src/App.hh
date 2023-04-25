@@ -1,0 +1,21 @@
+#ifndef MAPLEENGINE_APP_HH
+#define MAPLEENGINE_APP_HH
+
+#include <GLFW/glfw3.h>
+
+class App {
+public:
+    App(unsigned int width, unsigned int height, char* windowTitle);
+    ~App();
+    void Launch();
+private:
+    void RunApplication();
+    bool ApplicationShouldClose();
+    static void HandleKeyInput(GLFWwindow* window);
+    static void HandleMouseMotion(GLFWwindow* window, double xPos, double yPos);
+    static void ThrowError(int error, const char* description);
+    GLFWwindow* window;
+};
+
+
+#endif //MAPLEENGINE_APP_HH
