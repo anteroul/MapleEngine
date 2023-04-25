@@ -14,10 +14,11 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     window = glfwCreateWindow((int)width, (int)height, windowTitle, nullptr, nullptr);
+
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, HandleMouseMotion);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    //glewInit();
+    glewInit();
 }
 
 App::~App()
@@ -33,11 +34,8 @@ void App::Launch()
 
 void App::RunApplication()
 {
-    printf("Application is running.\n");
-    glfwPollEvents();
-    HandleKeyInput(window);
-    glClearColor(0.f, 0.f, 0.f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    Update();
+    Render();
 }
 
 bool App::ApplicationShouldClose()
@@ -48,6 +46,19 @@ bool App::ApplicationShouldClose()
     return false;
 }
 
+void App::Update()
+{
+    glfwPollEvents();
+    HandleKeyInput(window);
+    HandleMouseMotion(window, 0, 0);
+}
+
+void App::Render()
+{
+    glClearColor(0.f, 0.f, 0.f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void App::HandleKeyInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -56,8 +67,9 @@ void App::HandleKeyInput(GLFWwindow *window)
 
 void App::HandleMouseMotion(GLFWwindow *window, double xPos, double yPos)
 {
-    auto mouseX = (float)xPos;
-    auto mouseY = (float)yPos;
+    glfwGetCursorPos(window, &xPos, &yPos);
+    glfwSetCursorPos(window, xPos, yPos);
+    printf("MouseX: %d, MouseY: %d\n", (int)xPos, (int)yPos);
 }
 
 void App::ThrowError(int error, const char *description)
