@@ -3,6 +3,8 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "GameObject.h"
+#include "GameObjects/Player.h"
 
 class App {
 public:
@@ -11,6 +13,7 @@ public:
     void Launch();
 private:
     void RunApplication();
+    void InitGame();
     void Update();
     void Render();
     bool ApplicationShouldClose();
@@ -18,6 +21,7 @@ private:
     static void HandleMouseMotion(GLFWwindow* window, double xPos, double yPos);
     static void ThrowError(int error, const char* description);
     GLFWwindow* window;
+    std::shared_ptr<std::vector<GameObject>> gameObjects;
 };
 
 
