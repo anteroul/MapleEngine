@@ -1,10 +1,9 @@
 #ifndef MAPLEENGINE_APP_HH
 #define MAPLEENGINE_APP_HH
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "GameObject.h"
-#include "GameObjects/Player.h"
+#include "gameObjects/StaticObject.h"
+#include <GLFW/glfw3.h>
 
 class App {
 public:

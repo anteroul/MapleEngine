@@ -26,10 +26,10 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, HandleMouseMotion);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    glewInit();
+    //glewInit();
 
-    if (!glewInit())
-        printf("%s \bERROR: \t Unable to initialize GLEW!\n", ERROR);
+    //if (!glewInit())
+    //    printf("%s \bERROR: \t Unable to initialize GLEW!\n", ERROR);
 }
 
 App::~App()
@@ -48,9 +48,7 @@ void App::Launch()
 void App::InitGame()
 {
     gameObjects = std::make_shared<std::vector<GameObject>>();
-    auto player = Player("Player", {0.f, 0.f}, {0.2f, 0.4f}, {255, 0, 0, 255}, true, true, window);
-    gameObjects->emplace_back(player);
-    auto rigidBody = GameObject("Green", {-0.2f, 0.3f}, {0.2f, 0.4f}, {0, 255, 0, 255}, true, true);
+    auto rigidBody = GameObject("Green", {-0.8f, 0.3f}, {0.1f, 0.2f}, {0, 255, 0, 255}, true, true);
     gameObjects->emplace_back(rigidBody);
     auto floor = GameObject("Ground", {0.f, -0.5f}, {2.f, 0.2f}, {8, 8, 8, 255}, true, false);
     gameObjects->emplace_back(floor);

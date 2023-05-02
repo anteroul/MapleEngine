@@ -16,14 +16,15 @@ public:
     void UpdateData(std::shared_ptr<std::vector<GameObject>> data);
     void Update();
     void Render() const;
-    std::string tagName;
 protected:
-    virtual void UpdateLogic();
+    virtual void UpdateLogic(){};
+private:
     bool CheckCollision(GameObject* other);
     void UpdatePhysics();
     glm::vec2 position{};
     glm::vec2 scale{};
     glm::vec4 colour{};
+    std::string tagName;
     bool hasCollider = false;
     bool hasRigidBody = false;
     std::shared_ptr<std::vector<GameObject>> sceneData;

@@ -19,10 +19,9 @@ add_executable(MapleEngine
         src/App.hh
         src/App.cc
         src/constants/msg.h
-        #src/Scene.cpp
-        #src/Scene.h
-        #src/Entity.cpp
-        #src/Entity.h
-        #src/Components.h
-        src/GameObject.cpp src/GameObject.h src/GameObjects/Player.cpp src/GameObjects/Player.h)
+        src/GameObject.cpp
+        src/GameObject.h
+        src/gameObjects/StaticObject.cpp
+        src/gameObjects/StaticObject.h)
+
 target_link_libraries(MapleEngine -lOpenGL -lglfw ${GLEW_LIBRARIES} ${lib/stb_image.h} ${lib/gltext.h})
