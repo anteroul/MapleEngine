@@ -7,17 +7,17 @@ Scene2D::Scene2D()
     auto rigidBody = GameObject("Green", {-0.8f, 0.3f}, {0.1f, 0.2f}, {0, 255, 0, 255}, true, true);
     auto floor = GameObject("Ground", {0.f, -0.5f}, {2.f, 0.2f}, {8, 8, 8, 255}, true, false);
 
-    gravity = b2Vec2(0.f, -10.f);
-    world = new b2World(gravity);
+    //gravity = b2Vec2(0.f, -10.f);
+    //world = new b2World(gravity);
 
-    gameObjects.emplace_back(c);
     gameObjects.emplace_back(rigidBody);
     gameObjects.emplace_back(floor);
+    gameObjects.emplace_back(c);
 }
 
 Scene2D::~Scene2D()
 {
-    delete world;
+    //delete world;
 }
 
 void Scene2D::UpdateScene(float xPos, float yPos)
@@ -38,4 +38,10 @@ void Scene2D::RenderScene()
 {
     for (auto & gameObject : gameObjects)
         gameObject.Render();
+}
+
+glm::vec2 Scene2D::ToVec2(float x, float y)
+{
+
+    return glm::vec2();
 }

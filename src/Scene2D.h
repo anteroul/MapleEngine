@@ -18,6 +18,7 @@ public:
     void UpdateScene(float xPos, float yPos);
     void RenderScene();
 private:
+    glm::vec2 ToVec2(float x, float y);
     std::vector<GameObject> gameObjects;
     //std::unique_ptr<GameObject> cursor;
     b2Vec2 gravity;

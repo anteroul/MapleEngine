@@ -11,7 +11,7 @@ public:
     GameObject(std::string name, glm::vec2 pos, glm::vec2 _scale, glm::vec4 _colour, bool setDynamic, bool applyPhysics);
     ~GameObject();
     std::string GetTagName();
-    void MoveTo(glm::vec2 pos) const;
+    void MoveTo(glm::vec2 pos);
     void Render() const;
 private:
     glm::vec2 position{};

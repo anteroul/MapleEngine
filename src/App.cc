@@ -73,6 +73,7 @@ void App::Update()
     glfwPollEvents();
     HandleKeyInput(window);
     HandleMouseMotion(window, 0, 0);
+    printf("\r%s \bMouseX: %d, MouseY: %d", INFO, (int) mouse.x, (int) mouse.y);
     example2DScene->UpdateScene(mouse.x, mouse.y);
 }
 
@@ -98,8 +99,11 @@ void App::HandleMouseMotion(GLFWwindow *window, double xPos, double yPos)
 
     if (xPos > 0 && xPos <= width && yPos > 0 && yPos <= height)
     {
-        mouse.x = (float)xPos;
-        mouse.y = (float)yPos;
+        mouse.x = xPos - (width / 2);
+        mouse.y = yPos - (height / 2);
+        mouse.y *= -1;
+        mouse.x /= (width / 2);
+        mouse.y /= (height / 2);
         printf("\r%s \bMouseX: %d, MouseY: %d", WARNING, (int) xPos, (int) yPos);
         fflush(stdout);
     }

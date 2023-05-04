@@ -19,16 +19,9 @@ std::string GameObject::GetTagName()
     return tagName;
 }
 
-void GameObject::MoveTo(glm::vec2 pos) const
+void GameObject::MoveTo(glm::vec2 pos)
 {
-    if (position.x < pos.x)
-        pos.x += SPEED;
-    if (position.x > pos.x)
-        pos.x -= SPEED;
-    if (position.y < pos.y)
-        pos.y += SPEED;
-    if (position.y > pos.y)
-        pos.y -= SPEED;
+    position = pos;
 }
 
 void GameObject::Render() const
