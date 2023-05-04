@@ -5,29 +5,21 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include <string>
-#include <vector>
-#include <memory>
 
 class GameObject {
 public:
     GameObject(std::string name, glm::vec2 pos, glm::vec2 _scale, glm::vec4 _colour, bool setDynamic, bool applyPhysics);
     ~GameObject();
-    void UpdateData(std::shared_ptr<std::vector<GameObject>> data);
-    void Update();
+    std::string GetTagName();
+    void MoveTo(glm::vec2 pos) const;
     void Render() const;
-protected:
-    virtual void UpdateLogic(){};
 private:
-    bool CheckCollision(GameObject* other);
-    void UpdatePhysics();
     glm::vec2 position{};
     glm::vec2 scale{};
     glm::vec4 colour{};
     std::string tagName;
     bool hasCollider = false;
     bool hasRigidBody = false;
-    std::shared_ptr<std::vector<GameObject>> sceneData;
 };
 
 

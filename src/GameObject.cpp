@@ -2,6 +2,8 @@
 #include <iostream>
 #include "GameObject.h"
 
+#define SPEED 0.0017f
+
 GameObject::GameObject(std::string name, glm::vec2 pos, glm::vec2 _scale, glm::vec4 _colour, bool setDynamic, bool applyPhysics)
 : tagName(std::move(name)), hasCollider(setDynamic), hasRigidBody(applyPhysics)
 {
@@ -12,23 +14,21 @@ GameObject::GameObject(std::string name, glm::vec2 pos, glm::vec2 _scale, glm::v
 
 GameObject::~GameObject() = default;
 
-void GameObject::UpdateData(std::shared_ptr<std::vector<GameObject>> data)
+std::string GameObject::GetTagName()
 {
-    sceneData = std::move(data);
+    return tagName;
 }
 
-void GameObject::Update()
+void GameObject::MoveTo(glm::vec2 pos) const
 {
-    if (hasCollider)
-    {
-        for (auto & i : *sceneData)
-            CheckCollision(&i);
-    }
-    if (hasRigidBody)
-    {
-        UpdatePhysics();
-    }
-    Render();
+    if (position.x < pos.x)
+        pos.x += SPEED;
+    if (position.x > pos.x)
+        pos.x -= SPEED;
+    if (position.y < pos.y)
+        pos.y += SPEED;
+    if (position.y > pos.y)
+        pos.y -= SPEED;
 }
 
 void GameObject::Render() const
@@ -43,30 +43,3 @@ void GameObject::Render() const
     glFlush();
 }
 
-bool GameObject::CheckCollision(GameObject *other)
-{
-    // TODO
-    if (other->hasCollider)
-    {
-        /*
-        if (position.y - scale.y > other->position.y + other->scale.y)
-        {
-            std::cout << "\nCollision!\n";
-            return true;
-        }
-        */
-    }
-    return false;
-}
-
-void GameObject::UpdatePhysics()
-{
-    unsigned long collisionsToCheck = sceneData->size();
-
-    for (auto & i : *sceneData)
-        if (!CheckCollision(&i))
-            collisionsToCheck--;
-
-    if (collisionsToCheck == 0)
-        position.y -= 0.0017f;
-}

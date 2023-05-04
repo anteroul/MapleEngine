@@ -3,6 +3,12 @@
 #include <cstdio>
 #include <cstdlib>
 
+struct mousePos {
+    float x, y;
+};
+
+static mousePos mouse = {0.f, 0.f};
+
 App::App(unsigned int width, unsigned int height, char* windowTitle)
 {
     glfwInit();
@@ -34,24 +40,18 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
 
 App::~App()
 {
+    delete example2DScene;
     glfwTerminate();
 }
 
 void App::Launch()
 {
     printf("%s \bINFO: \t Application is now running!\n", INFO);
-    InitGame();
+
+    example2DScene = new Scene2D();
+
     while (!ApplicationShouldClose())
         RunApplication();
-}
-
-void App::InitGame()
-{
-    gameObjects = std::make_shared<std::vector<GameObject>>();
-    auto rigidBody = GameObject("Green", {-0.8f, 0.3f}, {0.1f, 0.2f}, {0, 255, 0, 255}, true, true);
-    gameObjects->emplace_back(rigidBody);
-    auto floor = GameObject("Ground", {0.f, -0.5f}, {2.f, 0.2f}, {8, 8, 8, 255}, true, false);
-    gameObjects->emplace_back(floor);
 }
 
 void App::RunApplication()
@@ -73,22 +73,14 @@ void App::Update()
     glfwPollEvents();
     HandleKeyInput(window);
     HandleMouseMotion(window, 0, 0);
-
-    for (auto & gameObject : *gameObjects)
-    {
-        gameObject.UpdateData(gameObjects);
-        gameObject.Update();
-    }
+    example2DScene->UpdateScene(mouse.x, mouse.y);
 }
 
 void App::Render()
 {
     glClearColor(0.f, 0.f, 0.f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    for (auto & gameObject : *gameObjects)
-        gameObject.Render();
-
+    example2DScene->RenderScene();
     glfwSwapBuffers(window);
 }
 
@@ -106,6 +98,8 @@ void App::HandleMouseMotion(GLFWwindow *window, double xPos, double yPos)
 
     if (xPos > 0 && xPos <= width && yPos > 0 && yPos <= height)
     {
+        mouse.x = (float)xPos;
+        mouse.y = (float)yPos;
         printf("\r%s \bMouseX: %d, MouseY: %d", WARNING, (int) xPos, (int) yPos);
         fflush(stdout);
     }
