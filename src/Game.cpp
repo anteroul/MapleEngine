@@ -14,21 +14,20 @@ Game::Game()
 
 void Game::initialize()
 {
+    b2World& world = physics.getWorld();
     b2Vec2 size = getSize();
 }
 
 void Game::update(float delta)
 {
-    for (auto entity : entities) {
+    for (auto entity : entities)
         entity->update(delta);
-    }
 }
 
 void Game::render()
 {
-    for (auto entity : entities) {
+    for (auto entity : entities)
         entity->render();
-    }
 }
 
 void Game::setEntityName(Entity* entity, const std::string& name)
@@ -44,6 +43,7 @@ void Game::removeEntityName(Entity* entity, const std::string& name)
 Entity* Game::getEntityWithName(const std::string& name) const
 {
     auto it = names.find(name);
+
     if (it == names.end())
         return NULL;
     else
@@ -53,6 +53,7 @@ Entity* Game::getEntityWithName(const std::string& name) const
 void Game::addEntityTag(Entity* entity, const std::string& tag)
 {
     auto it = tags.find(tag);
+
     if (it == tags.end())
     {
         auto inserted = tags.insert(std::pair<std::string, std::list<Entity*>>());
@@ -65,6 +66,7 @@ void Game::addEntityTag(Entity* entity, const std::string& tag)
 void Game::removeEntityTag(Entity* entity, const std::string& tag)
 {
     auto it = tags.find(tag);
+
     if (it == tags.end())
         return;
 
@@ -80,6 +82,7 @@ void Game::removeEntityTag(Entity* entity, const std::string& tag)
 std::list<Entity*> Game::getEntitiesWithTag(const std::string& tag) const
 {
     auto it = tags.find(tag);
+
     if (it == tags.end())
         return std::list<Entity*>();
     else
@@ -90,6 +93,7 @@ Entity* Game::getEntityWithTag(const std::string& tag) const
 {
     auto entities = getEntitiesWithTag(tag);
     auto it = entities.begin();
+
     if (it == entities.end())
         return NULL;
     else

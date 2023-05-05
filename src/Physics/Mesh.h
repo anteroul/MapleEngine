@@ -1,7 +1,7 @@
 #ifndef MAPLEENGINE_MESH_H
 #define MAPLEENGINE_MESH_H
 
-#include "../../3rd_party/glad/include/glad/glad.h"
+#include <GL/glew.h>
 
 class Geometry;
 

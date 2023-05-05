@@ -10,7 +10,7 @@ public:
 
     virtual void initialize() {}
     virtual void render() const {};
-    virtual void update(float delta) {};
+    virtual void update(float deltaTime) {};
 
     Entity& getEntity() { return m_Owner; }
     void setBody(b2Body* body) { m_Owner.body = body; }

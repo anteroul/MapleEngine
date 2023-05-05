@@ -4,7 +4,7 @@
 #include <functional>
 #include <map>
 #include <Box2D/Box2D.h>
-#include "../Core/Entity.h"
+#include "../ECS/Entity.h"
 
 struct CollisionHandler : b2ContactListener {
     typedef std::function<void(Entity*, b2Contact*)> Handler;

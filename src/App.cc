@@ -3,11 +3,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-struct mousePos {
-    float x, y;
-};
-
-static mousePos mouse = {0.f, 0.f};
 
 App::App(unsigned int width, unsigned int height, char* windowTitle)
 {
@@ -33,13 +28,11 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
     glfwSetCursorPosCallback(window, HandleMouseMotion);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-        ThrowError(EXIT_FAILURE, "Failed to create OpenGL context window.");
+    glewInit();
 }
 
 App::~App()
 {
-    delete example2DScene;
     glfwTerminate();
 }
 
@@ -49,16 +42,17 @@ void App::Launch()
     glfwGetWindowSize(window, &width, &height);
     printf("%s \bINFO: \t Application is now running!\n", INFO);
 
-    example2DScene = new Scene2D(width, height);
+    Game& game = Game::getInstance();
+    game.initialize();
 
     while (!ApplicationShouldClose())
-        RunApplication();
+        RunApplication(game);
 }
 
-void App::RunApplication()
+void App::RunApplication(Game& game)
 {
-    Update();
-    Render();
+    Update(game, glfwGetTime());
+    Render(game);
 }
 
 bool App::ApplicationShouldClose()
@@ -69,20 +63,21 @@ bool App::ApplicationShouldClose()
     return false;
 }
 
-void App::Update()
+void App::Update(Game& game, double cTime)
 {
+    double newTime = glfwGetTime();
+    double frameTime = newTime - cTime;
     glfwPollEvents();
     HandleKeyInput(window);
     HandleMouseMotion(window, 0, 0);
-    printf("\r%s \bMouseX: %d, MouseY: %d", INFO, (int) mouse.x, (int) mouse.y);
-    example2DScene->UpdateScene(mouse.x, mouse.y);
+    game.update((float)frameTime);
 }
 
-void App::Render()
+void App::Render(Game& game)
 {
     glClearColor(0.f, 0.f, 0.f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    example2DScene->RenderScene();
+    game.render();
     glfwSwapBuffers(window);
 }
 
@@ -100,11 +95,6 @@ void App::HandleMouseMotion(GLFWwindow *window, double xPos, double yPos)
 
     if (xPos > 0 && xPos <= width && yPos > 0 && yPos <= height)
     {
-        mouse.x = xPos - (width / 2);
-        mouse.y = yPos - (height / 2);
-        mouse.y *= -1;
-        mouse.x /= (width / 2);
-        mouse.y /= (height / 2);
         printf("\r%s \bMouseX: %d, MouseY: %d", WARNING, (int) xPos, (int) yPos);
         fflush(stdout);
     }

@@ -4,7 +4,7 @@
 #include <map>
 #include <list>
 #include <Box2D/Box2D.h>
-#include "../Core/Component.h"
+#include "../ECS/Component.h"
 #include "CollisionHandler.h"
 
 class Physics {
