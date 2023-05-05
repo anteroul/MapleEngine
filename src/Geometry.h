@@ -4,7 +4,8 @@
 #include "Physics/Mesh.h"
 #include <Box2D/Box2D.h>
 
-struct Geometry {
+class Geometry {
+public:
     static Mesh* uploadBox(b2Vec3 extens);
 private:
     static unsigned short* createTrianglesForQuad (unsigned short topLeft, unsigned short bottomLeft, unsigned short bottomRight, unsigned short topRight, unsigned short* indices);

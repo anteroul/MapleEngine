@@ -1,7 +1,11 @@
 #include "Game.h"
 #include "GameObjects/Player.h"
+#include "GameObjects/Wall.h"
+#include "ECS/Components/PlayerInput.h"
+#include "ECS/Components/SphereRenderer.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
+#include <iostream>
 
 Game Game::gameInstance;
 
@@ -16,8 +20,21 @@ void Game::initialize()
 {
     b2World& world = physics.getWorld();
     b2Vec2 size = getSize();
+    b2BodyDef playerBodyDef;
+    playerBodyDef.position.Set(0.f, 0.f);
 
-    entities.push_back(new Player(world, 2.f));
+    //entities.push_back(new Player(world, 0.1f));
+
+    auto player = new Entity();
+
+    player->body = world.CreateBody(&playerBodyDef);
+    player->setName("Player");
+    player->addTag("Player");
+    player->addComponent(new SphereRenderer(*player, 0.01f));
+    player->addComponent(new PlayerInput(*player, 8000.f));
+
+    entities.push_back(new Wall(world, b2Vec2(1.f, size.y), b2Vec2(0.95f, -1.f)));
+    entities.push_back(player);
 
     for (auto i : entities)
         i->initialize();
@@ -27,8 +44,12 @@ void Game::update(GLFWwindow* window, float deltaTime)
 {
     physics.update(deltaTime);
 
+    Entity* player = getEntityWithName("Player");
+
     for (auto entity : entities)
         entity->update(window, deltaTime);
+
+    std::cout << player->body->GetTransform().p.x << ", " << player->body->GetTransform().p.y << std::endl;
 }
 
 void Game::render()

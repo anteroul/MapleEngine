@@ -34,8 +34,8 @@ b2Body *Player::createBoxBody(b2World &world, b2Vec2 origin, b2Vec2 extents)
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &box;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
+    fixtureDef.density = 1.f;
+    fixtureDef.friction = 0.f;
 
     b2Body* body = world.CreateBody(&bodyDef);
     body->CreateFixture(&fixtureDef);

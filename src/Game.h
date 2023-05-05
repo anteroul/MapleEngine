@@ -10,9 +10,13 @@ class Game {
 public:
     static Game& getInstance();
     static b2Vec2 getSize() { return b2Vec2(10., 7.5); }
+
     void initialize();
     void update(GLFWwindow* window, float deltaTime);
     void render();
+
+    Physics& getPhysics() { return physics; }
+
     void setEntityName(Entity* entity, const std::string& name);
     void removeEntityName(Entity* entity, const std::string& name);
     Entity* getEntityWithName(const std::string& name) const;

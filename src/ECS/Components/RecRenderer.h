@@ -11,12 +11,13 @@ struct RecRenderer : public Component {
     bool blink;
     double blinkStart;
 
-    RecRenderer(Entity& owner, const b2Vec3 &extents);
-    //RecRenderer (Entity& owner, const b2Vec3& extents, Material *material = nullptr);
+    RecRenderer (Entity& owner, const b2Vec3& extents, Material *material = nullptr);
     ~RecRenderer();
 
     void update(GLFWwindow* window, float deltaTime) override;
     void render() const override;
+
+    void startBlinkAt(b2Vec2 position);
 };
 
 
