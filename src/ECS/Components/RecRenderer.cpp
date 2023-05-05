@@ -1,12 +1,19 @@
 #include "RecRenderer.h"
 #include "../../Geometry.h"
 
-RecRenderer::RecRenderer(Entity &owner, const b2Vec3 &extents, Material *material) : Component(owner), blink(false)
+/*
+RecRenderer::RecRenderer(Entity &owner, const b2Vec3 &extents, Material *material) : Component(owner)
 {
     mesh = Geometry::uploadBox(extents);
 
     if (material)
         material->setUniform("blink_t", 2.);
+}
+*/
+
+RecRenderer::RecRenderer(Entity &owner, const b2Vec3 &extents) : Component(owner)
+{
+    mesh = Geometry::uploadBox(extents);
 }
 
 RecRenderer::~RecRenderer ()
@@ -18,43 +25,33 @@ RecRenderer::~RecRenderer ()
 void RecRenderer::render() const
 {
     const b2Body* body = getBody();
-    if (body == NULL) {
-        // TODO: Log error.
-        return;
-    }
+    const b2Vec2 position = body->GetPosition();
 
+    /*
     if (material)
         material->apply();
 
     const b2Vec2 position = body->GetPosition();
     glLoadIdentity();
-    glTranslatef(position.x, position.y, 0.5);
-    glColor3f(0.9, 0.9, 1.0);
+    glTranslatef(position.x, position.y, 0.5f);
+    glColor3f(0.9f, 0.9f, 1.f);
 
     mesh->render();
 
     if (material)
         Material::deactivate();
+    */
+
+    glBegin(GL_QUADS);
+    glColor3f(255.f, 0.f, 0.f);
+    glVertex2f(position.x - 0.25f, position.y - 0.25f);
+    glVertex2f(position.x - 0.25f, position.y + 0.25f);
+    glVertex2f(position.x + 0.25f, position.y + 0.25f);
+    glVertex2f(position.x + 0.25f, position.y - 0.25f);
+    glEnd();
 }
 
 void RecRenderer::update(GLFWwindow* window, float deltaTime)
 {
-    // XXX: Ugh. This depends on a "correct" material being passed in.
-    if (blink) {
-        double timePassed = glfwGetTime() - blinkStart;
-        material->setUniform("blink_t", timePassed);
-        if (timePassed > 1.) {
-            blink = false;
-        }
-    }
-}
 
-void RecRenderer::startBlinkAt(b2Vec2 position)
-{
-    if (material != NULL) {
-        blink = true;
-        printf("%f", position.y);
-        material->setUniform("blink_y", position.y);
-        blinkStart = glfwGetTime();
-    }
 }

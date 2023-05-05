@@ -5,7 +5,7 @@
 #include "../Component.h"
 
 struct PlayerInput : public Component {
-    PlayerInput(Entity &owner, Entity &entity, float speed);
+    PlayerInput(Entity &owner, float speed);
     void update(GLFWwindow* window, float deltaTime) override;
     float m_Speed;
 };

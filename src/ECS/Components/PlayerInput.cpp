@@ -1,6 +1,6 @@
 #include "PlayerInput.h"
 
-PlayerInput::PlayerInput(Entity &owner, Entity &entity, float speed) : Component(owner)
+PlayerInput::PlayerInput(Entity &owner, float speed) : Component(owner)
 {
     m_Speed = speed;
 }

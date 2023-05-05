@@ -22,6 +22,12 @@ add_executable(MapleEngine
         src/Log/msg.h
         src/Game.cpp
         src/Game.h
+        src/Material.cpp
+        src/Material.h
+        src/Shader.cpp
+        src/Shader.h
+        src/Geometry.cpp
+        src/Geometry.h
         src/ECS/Entity.cpp
         src/ECS/Entity.h
         src/ECS/Component.h
@@ -35,11 +41,7 @@ add_executable(MapleEngine
         src/Physics/Mesh.h
         src/Physics/Physics.cpp
         src/Physics/Physics.h
-        src/Material.cpp
-        src/Material.h
-        src/Shader.cpp
-        src/Shader.h
-        src/Geometry.cpp
-        src/Geometry.h)
+        src/GameObjects/Player.cpp
+        src/GameObjects/Player.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)
