@@ -1,5 +1,5 @@
 #include "App.hh"
-#include "constants/msg.h"
+#include "Log/msg.h"
 #include <cstdio>
 #include <cstdlib>
 
@@ -32,10 +32,9 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, HandleMouseMotion);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    //glewInit();
 
-    //if (!glewInit())
-    //    printf("%s \bERROR: \t Unable to initialize GLEW!\n", ERROR);
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+        ThrowError(EXIT_FAILURE, "Failed to create OpenGL context window.");
 }
 
 App::~App()
@@ -46,9 +45,11 @@ App::~App()
 
 void App::Launch()
 {
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
     printf("%s \bINFO: \t Application is now running!\n", INFO);
 
-    example2DScene = new Scene2D();
+    example2DScene = new Scene2D(width, height);
 
     while (!ApplicationShouldClose())
         RunApplication();

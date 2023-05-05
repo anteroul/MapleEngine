@@ -4,6 +4,7 @@
 #define MAPLEENGINE_APP_HH
 
 #include "Scene2D.h"
+#include "../3rd_party/glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 
 class App {
