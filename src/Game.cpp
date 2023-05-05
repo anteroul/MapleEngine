@@ -18,10 +18,10 @@ void Game::initialize()
     b2Vec2 size = getSize();
 }
 
-void Game::update(float delta)
+void Game::update(GLFWwindow* window, float deltaTime)
 {
     for (auto entity : entities)
-        entity->update(delta);
+        entity->update(window, deltaTime);
 }
 
 void Game::render()

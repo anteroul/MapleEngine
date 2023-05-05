@@ -3,12 +3,10 @@
 
 #include "../../Game.h"
 #include "../Component.h"
-#include <GLFW/glfw3.h>
-
 
 struct PlayerInput : public Component {
     PlayerInput(Entity &owner, Entity &entity, float speed);
-    void update(GLFWwindow* window, float deltaTime);
+    void update(GLFWwindow* window, float deltaTime) override;
     float m_Speed;
 };
 

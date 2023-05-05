@@ -37,7 +37,7 @@ void RecRenderer::render() const
         Material::deactivate();
 }
 
-void RecRenderer::update(float delta)
+void RecRenderer::update(GLFWwindow* window, float deltaTime)
 {
     // XXX: Ugh. This depends on a "correct" material being passed in.
     if (blink) {

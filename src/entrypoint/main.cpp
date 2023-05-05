@@ -1,4 +1,4 @@
-#include "../App.hh"
+#include "../App.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wwritable-strings"

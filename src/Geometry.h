@@ -2,7 +2,6 @@
 #define MAPLEENGINE_GEOMETRY_H
 
 #include "Physics/Mesh.h"
-#include <GL/gl.h>
 #include <Box2D/Box2D.h>
 
 struct Geometry {

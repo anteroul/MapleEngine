@@ -1,10 +1,8 @@
 #pragma once
 
-#ifndef MAPLEENGINE_APP_HH
-#define MAPLEENGINE_APP_HH
+#ifndef MAPLEENGINE_APP_H
+#define MAPLEENGINE_APP_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "Game.h"
 
 class App {
@@ -24,4 +22,4 @@ private:
 };
 
 
-#endif //MAPLEENGINE_APP_HH
+#endif //MAPLEENGINE_APP_H

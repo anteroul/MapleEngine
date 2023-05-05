@@ -1,9 +1,8 @@
 #ifndef MAPLEENGINE_GAME_H
 #define MAPLEENGINE_GAME_H
 
-#include "ECS/Entity.h"
 #include "Physics/Physics.h"
-
+#include "ECS/Entity.h"
 #include <list>
 #include <map>
 
@@ -12,7 +11,7 @@ public:
     static Game& getInstance();
     static b2Vec2 getSize() { return b2Vec2(10., 7.5); }
     void initialize();
-    void update(float delta);
+    void update(GLFWwindow* window, float deltaTime);
     void render();
     void setEntityName(Entity* entity, const std::string& name);
     void removeEntityName(Entity* entity, const std::string& name);

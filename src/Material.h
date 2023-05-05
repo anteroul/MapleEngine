@@ -2,10 +2,9 @@
 #define MAPLEENGINE_MATERIAL_H
 
 #include "Log/msg.h"
-
 #include <string>
-#include <GL/glew.h>
 #include "Shader.h"
+#include "Game.h"
 
 #include <iostream>
 #include <sstream>

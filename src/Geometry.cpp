@@ -1,5 +1,4 @@
 #include "Geometry.h"
-#include <GLFW/glfw3.h>
 
 Mesh *Geometry::uploadBox (b2Vec3 extents)
 {

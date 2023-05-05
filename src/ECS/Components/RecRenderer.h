@@ -5,8 +5,6 @@
 #include "../../Material.h"
 #include "../../Physics/Mesh.h"
 
-#include <GLFW/glfw3.h>
-
 struct RecRenderer : public Component {
     Material *material;
     Mesh *mesh;
@@ -16,7 +14,7 @@ struct RecRenderer : public Component {
     RecRenderer (Entity& owner, const b2Vec3& extents, Material *material = nullptr);
     ~RecRenderer();
 
-    void update(float deltaTime) override;
+    void update(GLFWwindow* window, float deltaTime) override;
     void render() const override;
 
     void startBlinkAt(b2Vec2 position);

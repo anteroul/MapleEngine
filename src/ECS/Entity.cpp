@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-#include "Component.h"
 #include "../Game.h"
+#include "Component.h"
 
 Entity::Entity() : m_Name("")
 {}
@@ -18,10 +18,10 @@ void Entity::initialize()
         component->initialize();
 }
 
-void Entity::update(float delta)
+void Entity::update(GLFWwindow* window, float deltaTime)
 {
     for (auto component : m_Components)
-        component->update(delta);
+        component->update(window, deltaTime);
 }
 
 void Entity::render() const

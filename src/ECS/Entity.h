@@ -4,7 +4,8 @@
 #include <list>
 #include <set>
 #include <string>
-
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <Box2D/Box2D.h>
 
 class Component;
@@ -17,7 +18,7 @@ public:
     ~Entity();
 
     void initialize();
-    void update(float delta);
+    void update(GLFWwindow* window, float deltaTime);
     void render() const;
 
     b2AABB getAABB () const;

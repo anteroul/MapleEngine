@@ -16,20 +16,30 @@ link_libraries(${GLFW_LIBRARY_DIRS})
 add_subdirectory(3rd_party/Box2D-cmake)
 
 add_executable(MapleEngine
-        src/entrypoint/main.cc
-        src/App.hh
-        src/App.cc
+        src/entrypoint/main.cpp
+        src/App.h
+        src/App.cpp
         src/Log/msg.h
         src/Game.cpp
         src/Game.h
         src/ECS/Entity.cpp
         src/ECS/Entity.h
         src/ECS/Component.h
+        src/ECS/Components/PlayerInput.cpp
+        src/ECS/Components/PlayerInput.h
+        src/ECS/Components/RecRenderer.cpp
+        src/ECS/Components/RecRenderer.h
         src/Physics/CollisionHandler.cpp
         src/Physics/CollisionHandler.h
         src/Physics/Mesh.cpp
         src/Physics/Mesh.h
         src/Physics/Physics.cpp
-        src/Physics/Physics.h src/ECS/Components/PlayerInput.cpp src/ECS/Components/PlayerInput.h src/ECS/Components/RecRenderer.cpp src/ECS/Components/RecRenderer.h src/Material.cpp src/Material.h src/Shader.cpp src/Shader.h src/Geometry.cpp src/Geometry.h)
+        src/Physics/Physics.h
+        src/Material.cpp
+        src/Material.h
+        src/Shader.cpp
+        src/Shader.h
+        src/Geometry.cpp
+        src/Geometry.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

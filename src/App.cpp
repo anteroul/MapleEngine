@@ -1,4 +1,4 @@
-#include "App.hh"
+#include "App.h"
 #include "Log/msg.h"
 #include <cstdio>
 #include <cstdlib>
@@ -70,7 +70,7 @@ void App::Update(Game& game, double cTime)
     glfwPollEvents();
     HandleKeyInput(window);
     HandleMouseMotion(window, 0, 0);
-    game.update((float)frameTime);
+    game.update(window, (float)frameTime);
 }
 
 void App::Render(Game& game)

@@ -1,8 +1,8 @@
 #ifndef MAPLEENGINE_SHADER_H
 #define MAPLEENGINE_SHADER_H
 
+#include "App.h"
 #include <string>
-#include "GL/glew.h"
 
 class Shader {
 public:
