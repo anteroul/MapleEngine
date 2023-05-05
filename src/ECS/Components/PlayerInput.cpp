@@ -9,7 +9,7 @@ void PlayerInput::update(GLFWwindow* window, float deltaTime)
 {
     b2Body* body = getBody();
 
-    if (body == NULL)
+    if (body == nullptr)
         return;
 
     b2Vec2 desiredVelocity = b2Vec2_zero;

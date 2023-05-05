@@ -92,12 +92,6 @@ void App::HandleMouseMotion(GLFWwindow *window, double xPos, double yPos)
     int width, height;
     glfwGetCursorPos(window, &xPos, &yPos);
     glfwGetWindowSize(window, &width, &height);
-
-    if (xPos > 0 && xPos <= width && yPos > 0 && yPos <= height)
-    {
-        printf("\r%s \bMouseX: %d, MouseY: %d", WARNING, (int) xPos, (int) yPos);
-        fflush(stdout);
-    }
 }
 
 void App::ThrowError(int error, const char *description)

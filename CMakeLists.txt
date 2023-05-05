@@ -42,6 +42,8 @@ add_executable(MapleEngine
         src/Physics/Physics.cpp
         src/Physics/Physics.h
         src/GameObjects/Player.cpp
-        src/GameObjects/Player.h)
+        src/GameObjects/Player.h
+        src/ECS/Components/WallCollision.cpp
+        src/ECS/Components/WallCollision.h src/Filesystem.cpp src/Filesystem.h src/Strings.cpp src/Strings.h src/ECS/Components/SphereRenderer.cpp src/ECS/Components/SphereRenderer.h src/GameObjects/Wall.cpp src/GameObjects/Wall.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

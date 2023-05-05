@@ -53,7 +53,7 @@ std::string Shader::getLog(GLuint handle)
     glGetShaderiv(handle, GL_INFO_LOG_LENGTH, &logLength);
     auto *log = new GLchar[logLength];
 
-    glGetShaderInfoLog(handle, logLength, NULL, log);
+    glGetShaderInfoLog(handle, logLength, nullptr, log);
     std::string logString(log);
 
     delete[] log;

@@ -1,27 +1,28 @@
 #include "Material.h"
 #include "Shader.h"
+#include "Filesystem.h"
+#include "Strings.h"
 
 GLuint Material::activeProgram = 0;
 
-Material::Material(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) :programHandle(0)
+Material::Material(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) : programHandle(0)
 {
-    // TODO: Use a ShaderManager to load (and re-use) shaders from file.
-    Shader *vertexShader = NULL, *fragmentShader = NULL;
+    Shader *vertexShader = nullptr, *fragmentShader = nullptr;
 
     if (vertexShaderPath.length() > 0)
-        vertexShader = loadShader(GL_VERTEX_SHADER, "Shaders/" + vertexShaderPath);
+        vertexShader = loadShader(GL_VERTEX_SHADER, "../src/Shaders/Common", "../src/Shaders/" + vertexShaderPath);
     if (vertexShader && vertexShader->getType() != GL_VERTEX_SHADER)
     {
         std::cerr << "Got invalid vertex shader, ignoring." << std::endl;
-        vertexShader = NULL;
+        vertexShader = nullptr;
     }
 
     if (fragmentShaderPath.length() > 0)
-        fragmentShader = loadShader(GL_FRAGMENT_SHADER, "Shaders/" + fragmentShaderPath);
+        fragmentShader = loadShader(GL_FRAGMENT_SHADER, "../src/Shaders/Common", "../src/Shaders/" + fragmentShaderPath);
     if (fragmentShader && fragmentShader->getType() != GL_FRAGMENT_SHADER)
     {
         std::cerr << "Got invalid vertex shader, ignoring." << std::endl;
-        fragmentShader = NULL;
+        fragmentShader = nullptr;
     }
 
     programHandle = link(vertexShader, fragmentShader);
@@ -87,10 +88,10 @@ std::string Material::getLog(GLuint handle)
     glGetProgramiv(handle, GL_INFO_LOG_LENGTH, &logLength);
 
     GLchar *log = new GLchar[logLength];
-    glGetProgramInfoLog(handle, logLength, NULL, log);
+    glGetProgramInfoLog(handle, logLength, nullptr, log);
     std::string logString(log);
-    delete log;
 
+    delete[] log;
     return logString;
 }
 
@@ -102,10 +103,32 @@ void Material::deactivate()
     }
 }
 
-Shader *Material::loadShader(GLenum type, const std::string& path)
+Shader *Material::loadShader(GLenum type, const std::string& commonPath, const std::string& path)
 {
+    std::string shaderContent, commonShadersContent;
     std::string extension(type == GL_VERTEX_SHADER ? ".vert" : ".frag");
-    return new Shader(type, path);
+    std::vector<std::string> commonShaders;
+
+    if (Filesystem::entries(commonPath, &commonShaders)) {
+        std::sort(commonShaders.begin(), commonShaders.end());
+
+        for (auto commonShader : commonShaders) {
+            if (!Strings::endsWith(commonShader, extension))
+                continue;
+
+            std::string commonShaderContent;
+            if (Filesystem::readFile(commonPath + "/" + commonShader, &commonShaderContent)) {
+                commonShadersContent += commonShaderContent + "\n";
+            }
+        }
+    }
+
+    Shader *shader = nullptr;
+    if (Filesystem::readFile(path, &shaderContent)) {
+        shader = new Shader(type, commonShadersContent + shaderContent);
+    }
+
+    return shader;
 }
 
 void Material::apply() const

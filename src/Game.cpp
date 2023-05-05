@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameObjects/Player.h"
+#include "GameObjects/Wall.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
 
@@ -17,7 +18,10 @@ void Game::initialize()
     b2World& world = physics.getWorld();
     b2Vec2 size = getSize();
 
-    entities.push_back(new Player(world, 2.f));
+    //entities.push_back(new Player(world, 0.1f));
+
+    entities.push_back(new Wall(world, b2Vec2(1.f, size.y), b2Vec2(0.95f, -1.f)));
+    //entities.push_back(new Wall(world, b2Vec2(-1.f, size.y), b2Vec2(-0.95f, -1.f)));
 
     for (auto i : entities)
         i->initialize();

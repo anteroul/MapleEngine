@@ -25,7 +25,7 @@ private:
 
     static GLuint link(const Shader* vertexShader, const Shader* fragmentShader);
     static std::string getLog(GLuint handle);
-    static Shader *loadShader(GLenum type, const std::string& path);
+    static Shader *loadShader(GLenum type, const std::string& commonPath, const std::string& path);
 
     GLint getUniformLocation(const std::string& name) const;
 };
