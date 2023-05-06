@@ -18,22 +18,18 @@ Game::Game() = default;
 
 void Game::initialize()
 {
-    b2World& world = physics.getWorld();
-    b2Vec2 size = getSize();
-    b2BodyDef playerBodyDef;
-    playerBodyDef.position.Set(0.f, 0.f);
-
-    //entities.push_back(new Player(world, 0.1f));
-
     auto player = new Entity();
 
+    b2World& world = physics.getWorld();
+    b2BodyDef playerBodyDef;
+    playerBodyDef.position.Set(0.f, 0.f);
     player->body = world.CreateBody(&playerBodyDef);
     player->setName("Player");
     player->addTag("Player");
     player->addComponent(new SphereRenderer(*player, 0.01f));
     player->addComponent(new PlayerInput(*player, 8000.f));
 
-    entities.push_back(new Wall(world, b2Vec2(1.f, size.y), b2Vec2(0.95f, -1.f)));
+    entities.push_back(new Wall(world, b2Vec2(-1.f, -0.5f), b2Vec2(1.f, -0.4f)));
     entities.push_back(player);
 
     for (auto i : entities)
@@ -99,8 +95,8 @@ void Game::removeEntityTag(Entity* entity, const std::string& tag)
         return;
 
     auto entities = it->second;
-
     auto entityIt = std::find(entities.begin(), entities.end(), entity);
+
     if (entityIt == entities.end())
         return;
 
@@ -120,7 +116,6 @@ std::list<Entity*> Game::getEntitiesWithTag(const std::string& tag) const
 Entity* Game::getEntityWithTag(const std::string& tag) const
 {
     auto entities = getEntitiesWithTag(tag);
-
     auto it = entities.begin();
 
     if (it == entities.end())

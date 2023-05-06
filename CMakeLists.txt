@@ -28,13 +28,10 @@ add_executable(MapleEngine
         src/Shader.h
         src/Geometry.cpp
         src/Geometry.h
-        src/ECS/Entity.cpp
-        src/ECS/Entity.h
-        src/ECS/Component.h
-        src/ECS/Components/PlayerInput.cpp
-        src/ECS/Components/PlayerInput.h
-        src/ECS/Components/RecRenderer.cpp
-        src/ECS/Components/RecRenderer.h
+        src/Filesystem.cpp
+        src/Filesystem.h
+        src/Strings.cpp
+        src/Strings.h
         src/Physics/CollisionHandler.cpp
         src/Physics/CollisionHandler.h
         src/Physics/Mesh.cpp
@@ -43,7 +40,20 @@ add_executable(MapleEngine
         src/Physics/Physics.h
         src/GameObjects/Player.cpp
         src/GameObjects/Player.h
+        src/GameObjects/Wall.cpp
+        src/GameObjects/Wall.h
+        src/ECS/Entity.cpp
+        src/ECS/Entity.h
+        src/ECS/Component.h
         src/ECS/Components/WallCollision.cpp
-        src/ECS/Components/WallCollision.h src/Filesystem.cpp src/Filesystem.h src/Strings.cpp src/Strings.h src/ECS/Components/SphereRenderer.cpp src/ECS/Components/SphereRenderer.h src/GameObjects/Wall.cpp src/GameObjects/Wall.h)
+        src/ECS/Components/WallCollision.h
+        src/ECS/Components/PlayerInput.cpp
+        src/ECS/Components/PlayerInput.h
+        src/ECS/Components/RecRenderer.cpp
+        src/ECS/Components/RecRenderer.h
+        src/ECS/Components/SphereRenderer.cpp
+        src/ECS/Components/SphereRenderer.h
+        src/ECS/Components/RigidBody.cpp
+        src/ECS/Components/RigidBody.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

@@ -12,8 +12,6 @@ class Component;
 
 class Entity {
 public:
-    b2Body* body;
-
     Entity();
     ~Entity();
 
@@ -42,6 +40,8 @@ public:
     const std::string& getName() const;
     void addTag(const std::string& tag);
     void removeTag(const std::string& tag);
+
+    b2Body* body;
 private:
     std::string m_Name;
     std::set<std::string> m_Tags;

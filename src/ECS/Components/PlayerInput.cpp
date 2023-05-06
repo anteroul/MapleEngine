@@ -28,6 +28,7 @@ void PlayerInput::update(GLFWwindow* window, float deltaTime)
     b2AABB aabb = getEntity().getAABB();
     b2Vec2 position = body->GetPosition();
 
+    /*
     if (aabb.lowerBound.x <= 0.f)
     {
         position.x -= aabb.lowerBound.x;
@@ -36,4 +37,5 @@ void PlayerInput::update(GLFWwindow* window, float deltaTime)
         position.x -= (aabb.upperBound.x - gameSize.x);
         body->SetTransform(position, body->GetAngle());
     }
+    */
 }
