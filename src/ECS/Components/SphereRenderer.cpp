@@ -1,5 +1,8 @@
 #include "SphereRenderer.h"
 
+/// \param owner The entity containing this component
+/// \param radius Sphere radius
+/// \param colour Sphere colour
 SphereRenderer::SphereRenderer(Entity& owner, float radius, glm::vec3 colour) : Component(owner)
 {
     m_Radius = radius;
@@ -7,6 +10,7 @@ SphereRenderer::SphereRenderer(Entity& owner, float radius, glm::vec3 colour) : 
     m_Colour = colour;
 }
 
+/// Render sphere
 void SphereRenderer::render() const
 {
     const b2Body* body = getBody();

@@ -4,12 +4,9 @@
 #include "../Component.h"
 #include "BoxRenderer.h"
 
-class BoxCollider : public Component {
-public:
+struct BoxCollider : public Component {
     BoxCollider(Entity& owner) : Component(owner) {};
     void initialize() override;
-private:
-    BoxRenderer *renderer;
 };
 
 

@@ -11,13 +11,16 @@ class Physics {
 public:
     Physics();
     void update(float deltaTime);
-
+    /// \return reference to game world
     b2World& getWorld() { return world; }
 
     float getStepSize() const { return 1.f/60.f; }
     int getVelocitySolverIterations() const { return 8.f; }
     int getPositionSolverIterations() const { return 3.f; }
 
+    /// Handle collisions
+    /// \param [in] component collider component
+    /// \param [in] function = collision handler function object
     void collisionHandler(Component* component, CollisionHandler::Handler function);
 private:
     b2World world;

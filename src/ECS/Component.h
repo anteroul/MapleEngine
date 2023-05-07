@@ -7,7 +7,7 @@ class Component {
 public:
     Component(Entity& owner) :m_Owner(owner) { }
     virtual ~Component() {}
-
+    /// Component life cycle
     virtual void initialize() {}
     virtual void render() const {};
     virtual void update(GLFWwindow* glfWwindow, float deltaTime) {};

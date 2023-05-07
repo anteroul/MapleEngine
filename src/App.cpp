@@ -3,7 +3,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-
 App::App(unsigned int width, unsigned int height, char* windowTitle)
 {
     glfwInit();
@@ -49,6 +48,7 @@ void App::Launch()
         RunApplication(game);
 }
 
+///  Main game loop
 void App::RunApplication(Game& game)
 {
     Update(game, glfwGetTime());
@@ -63,6 +63,7 @@ bool App::ApplicationShouldClose()
     return false;
 }
 
+/// Update game logic
 void App::Update(Game& game, double cTime)
 {
     double newTime = glfwGetTime();
@@ -73,6 +74,7 @@ void App::Update(Game& game, double cTime)
     game.update(window, (float)frameTime);
 }
 
+/// Render game
 void App::Render(Game& game)
 {
     glClearColor(0.f, 0.f, 0.f, 1.0f);

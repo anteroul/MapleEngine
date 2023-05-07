@@ -12,14 +12,17 @@ class Component;
 
 class Entity {
 public:
+    ///
+    /// \param [in] world Reference to game world
+    /// \param [in] topLeft Top left corner of the entity
+    /// \param [in] bottomRight Bottom right corner of the entity
     Entity(b2World& world, b2Vec2 topLeft, b2Vec2 bottomRight);
     ~Entity();
-
+    /// Entity life cycle
     void initialize();
     void update(GLFWwindow* window, float deltaTime);
     void render() const;
-
-    // Component management
+    /// Component management
     template<typename T>
     T* getComponment() const {
         for (auto component : m_Components)
@@ -33,7 +36,7 @@ public:
     }
     void addComponent(Component* component);
 
-    // Entity registration
+    /// Entity registration
     void setName(const std::string& name);
     const std::string& getName() const;
     void addTag(const std::string& tag);

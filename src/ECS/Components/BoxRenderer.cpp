@@ -1,6 +1,8 @@
 #include "BoxRenderer.h"
-#include "../../Geometry.h"
 
+/// \param owner The entity containing this component
+/// \param size Rectangle size
+/// \param colour Rectangle colour
 BoxRenderer::BoxRenderer(Entity &owner, glm::vec2 size, glm::vec3 colour) : Component(owner)
 {
     m_Size = size;
@@ -9,6 +11,7 @@ BoxRenderer::BoxRenderer(Entity &owner, glm::vec2 size, glm::vec3 colour) : Comp
 
 BoxRenderer::~BoxRenderer() = default;
 
+/// Render rectangle
 void BoxRenderer::render() const
 {
     const b2Body* body = getBody();

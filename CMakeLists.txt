@@ -22,8 +22,6 @@ add_executable(MapleEngine
         src/Log/msg.h
         src/Game.cpp
         src/Game.h
-        src/Geometry.cpp
-        src/Geometry.h
         src/Physics/CollisionHandler.cpp
         src/Physics/CollisionHandler.h
         src/Physics/Mesh.cpp
@@ -40,6 +38,8 @@ add_executable(MapleEngine
         src/ECS/Components/BoxRenderer.cpp
         src/ECS/Components/BoxRenderer.h
         src/ECS/Components/SphereRenderer.cpp
-        src/ECS/Components/SphereRenderer.h)
+        src/ECS/Components/SphereRenderer.h
+        src/ECS/Components/MousePosition.cpp
+        src/ECS/Components/MousePosition.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

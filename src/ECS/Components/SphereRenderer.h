@@ -2,7 +2,6 @@
 #define MAPLEENGINE_SPHERERENDERER_H
 
 #include "../Component.h"
-#include <Box2D/Box2D.h>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 

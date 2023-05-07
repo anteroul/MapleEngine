@@ -1,0 +1,28 @@
+#include "MousePosition.h"
+
+/// \param owner Entity containing this component
+MousePosition::MousePosition(Entity &owner) : Component(owner)
+{
+    body = owner.body;
+}
+
+/// Sets the entity position as current cursor position.
+/// \param window OpenGL window context.
+/// \param deltaTime Game frame time.
+void MousePosition::update(GLFWwindow *window, float deltaTime)
+{
+    double x, y;
+    int width, height;
+
+    glfwGetWindowSize(window, &width, &height);
+    glfwGetCursorPos(window, &x, &y);
+
+    x = x - (width / 2);
+    x /= (width / 2);
+
+    y = y - (height / 2);
+    y *= -1;
+    y /= (height / 2);
+
+    body->SetTransform(b2Vec2(x, y), body->GetAngle());
+}

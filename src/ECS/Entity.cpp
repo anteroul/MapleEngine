@@ -24,12 +24,16 @@ void Entity::initialize()
         component->initialize();
 }
 
+/// Update all components linked to the entity.
+/// \param window Pointer to OpenGL window context
+/// \param deltaTime Game frame time
 void Entity::update(GLFWwindow* window, float deltaTime)
 {
     for (auto component : m_Components)
         component->update(window, deltaTime);
 }
 
+/// Render all components linked to the entity.
 void Entity::render() const
 {
     for (auto component : m_Components)
@@ -83,6 +87,7 @@ void Entity::removeTag(const std::string& tag)
     Game::getInstance().removeEntityTag(this, tag);
 }
 
+/// Creates a box body for the entity
 b2Body* Entity::createBoxBody(b2World& world, b2Vec2 origin, b2Vec2 extents)
 {
     b2BodyDef groundBodyDef;

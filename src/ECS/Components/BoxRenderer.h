@@ -3,7 +3,6 @@
 
 #include "../Component.h"
 #include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
 
 class BoxRenderer : public Component {
 public:
