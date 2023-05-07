@@ -13,29 +13,13 @@ void PlayerInput::update(GLFWwindow* window, float deltaTime)
     if (body == nullptr)
         return;
 
-    b2Vec2 desiredVelocity = b2Vec2_zero;
+    if (glfwGetKey(window, GLFW_KEY_LEFT))
+        body->SetTransform(b2Vec2(body->GetPosition().x - m_Speed, body->GetPosition().y), body->GetAngle());
+    if (glfwGetKey(window, GLFW_KEY_RIGHT))
+        body->SetTransform(b2Vec2(body->GetPosition().x + m_Speed, body->GetPosition().y), body->GetAngle());
+    if (glfwGetKey(window, GLFW_KEY_UP))
+        body->SetTransform(b2Vec2(body->GetPosition().x, body->GetPosition().y + m_Speed), body->GetAngle());
+    if (glfwGetKey(window, GLFW_KEY_DOWN))
+        body->SetTransform(b2Vec2(body->GetPosition().x, body->GetPosition().y - m_Speed), body->GetAngle());
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-        desiredVelocity = b2Vec2(-m_Speed, 0.f);
-        printf("Left key down!\n");
-    } else if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-        desiredVelocity = b2Vec2( m_Speed, 0.f);
-        printf("Right key down!\n");
-    }
-
-    body->SetLinearVelocity(desiredVelocity);
-    b2Vec2 gameSize = Game::getSize();
-    b2AABB aabb = getEntity().getAABB();
-    b2Vec2 position = body->GetPosition();
-
-    /*
-    if (aabb.lowerBound.x <= 0.f)
-    {
-        position.x -= aabb.lowerBound.x;
-        body->SetTransform(position, body->GetAngle());
-    } else if (aabb.upperBound.x >= gameSize.x) {
-        position.x -= (aabb.upperBound.x - gameSize.x);
-        body->SetTransform(position, body->GetAngle());
-    }
-    */
 }

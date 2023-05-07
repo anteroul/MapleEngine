@@ -16,7 +16,7 @@ void CollisionHandler::BeginContact(b2Contact* contact)
     b2Body *bodyA = contact->GetFixtureA()->GetBody();
     b2Body *bodyB = contact->GetFixtureB()->GetBody();
 
-    if (bodyA == NULL || bodyB == NULL)
+    if (bodyA == nullptr || bodyB == nullptr)
         return;
 
     handleCollision(contact, bodyA, bodyB);

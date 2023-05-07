@@ -22,38 +22,24 @@ add_executable(MapleEngine
         src/Log/msg.h
         src/Game.cpp
         src/Game.h
-        src/Material.cpp
-        src/Material.h
-        src/Shader.cpp
-        src/Shader.h
         src/Geometry.cpp
         src/Geometry.h
-        src/Filesystem.cpp
-        src/Filesystem.h
-        src/Strings.cpp
-        src/Strings.h
         src/Physics/CollisionHandler.cpp
         src/Physics/CollisionHandler.h
         src/Physics/Mesh.cpp
         src/Physics/Mesh.h
         src/Physics/Physics.cpp
         src/Physics/Physics.h
-        src/GameObjects/Player.cpp
-        src/GameObjects/Player.h
-        src/GameObjects/Wall.cpp
-        src/GameObjects/Wall.h
         src/ECS/Entity.cpp
         src/ECS/Entity.h
         src/ECS/Component.h
-        src/ECS/Components/WallCollision.cpp
-        src/ECS/Components/WallCollision.h
+        src/ECS/Components/BoxCollider.cpp
+        src/ECS/Components/BoxCollider.h
         src/ECS/Components/PlayerInput.cpp
         src/ECS/Components/PlayerInput.h
-        src/ECS/Components/RecRenderer.cpp
-        src/ECS/Components/RecRenderer.h
+        src/ECS/Components/BoxRenderer.cpp
+        src/ECS/Components/BoxRenderer.h
         src/ECS/Components/SphereRenderer.cpp
-        src/ECS/Components/SphereRenderer.h
-        src/ECS/Components/RigidBody.cpp
-        src/ECS/Components/RigidBody.h)
+        src/ECS/Components/SphereRenderer.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

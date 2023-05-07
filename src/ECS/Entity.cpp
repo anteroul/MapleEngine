@@ -3,8 +3,14 @@
 #include "../Game.h"
 #include "Component.h"
 
-Entity::Entity() : m_Name("")
-{}
+Entity::Entity(b2World& world, b2Vec2 topLeft, b2Vec2 bottomRight) : m_Name("")
+{
+    b2Vec2 extents = 1.f/2.f * b2Abs(topLeft - bottomRight);
+    b2Vec2 origin = 1.f/2.f * (topLeft + bottomRight);
+
+    body = createBoxBody(world, origin, extents);
+    body->SetUserData(this);
+}
 
 Entity::~Entity()
 {
@@ -38,7 +44,9 @@ void Entity::addComponent(Component *component)
 void Entity::setName(const std::string& name)
 {
     Game& game = Game::getInstance();
-    if (name.length() > 0) {
+
+    if (name.length() > 0)
+    {
         if (m_Name.length() > 0)
             game.removeEntityName(this, m_Name);
 
@@ -67,6 +75,7 @@ void Entity::addTag(const std::string& tag)
 void Entity::removeTag(const std::string& tag)
 {
     auto tagIterator = m_Tags.find(tag);
+
     if (tagIterator == m_Tags.end())
         return;
 
@@ -74,15 +83,22 @@ void Entity::removeTag(const std::string& tag)
     Game::getInstance().removeEntityTag(this, tag);
 }
 
-b2AABB Entity::getAABB () const
+b2Body* Entity::createBoxBody(b2World& world, b2Vec2 origin, b2Vec2 extents)
 {
-    b2AABB aabb;
-    aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
-    aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX);
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position = origin;
 
-    for (b2Fixture* fixture = body->GetFixtureList(); fixture != NULL; fixture = fixture->GetNext ()) {
-        aabb.Combine(aabb, fixture->GetAABB(0));
-    }
+    b2PolygonShape groundBox;
+    groundBox.SetAsBox(extents.x, extents.y);
 
-    return aabb;
+    b2Body* body = world.CreateBody(&groundBodyDef);
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &groundBox;
+    fixtureDef.density = 1.f;
+    fixtureDef.friction = 0.f;
+    fixtureDef.restitution = 1.f;
+
+    body->CreateFixture(&fixtureDef);
+    return body;
 }

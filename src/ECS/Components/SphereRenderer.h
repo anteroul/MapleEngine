@@ -3,14 +3,16 @@
 
 #include "../Component.h"
 #include <Box2D/Box2D.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+#include <glm/glm.hpp>
 
 class SphereRenderer : public Component {
 public:
-    SphereRenderer(Entity& owner, float radius);
+    SphereRenderer(Entity& owner, float radius, glm::vec3 colour);
     void render() const override;
     float m_Radius;
 private:
+    glm::vec3 m_Colour;
     GLUquadric *m_Quadric;
 };
 

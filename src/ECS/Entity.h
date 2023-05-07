@@ -12,14 +12,12 @@ class Component;
 
 class Entity {
 public:
-    Entity();
+    Entity(b2World& world, b2Vec2 topLeft, b2Vec2 bottomRight);
     ~Entity();
 
     void initialize();
     void update(GLFWwindow* window, float deltaTime);
     void render() const;
-
-    b2AABB getAABB () const;
 
     // Component management
     template<typename T>
@@ -27,11 +25,11 @@ public:
         for (auto component : m_Components)
         {
             T* componentCast = dynamic_cast<T*>(component);
-            if (componentCast != NULL)
+            if (componentCast != nullptr)
                 return componentCast;
         }
 
-        return NULL;
+        return nullptr;
     }
     void addComponent(Component* component);
 
@@ -43,6 +41,7 @@ public:
 
     b2Body* body;
 private:
+    b2Body* createBoxBody(b2World& world, b2Vec2 origin, b2Vec2 extents);
     std::string m_Name;
     std::set<std::string> m_Tags;
     std::list<Component*> m_Components;

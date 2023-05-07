@@ -1,7 +1,7 @@
 #include "Game.h"
-#include "GameObjects/Player.h"
-#include "GameObjects/Wall.h"
 #include "ECS/Components/PlayerInput.h"
+#include "ECS/Components/BoxRenderer.h"
+#include "ECS/Components/BoxCollider.h"
 #include "ECS/Components/SphereRenderer.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
@@ -18,19 +18,39 @@ Game::Game() = default;
 
 void Game::initialize()
 {
-    auto player = new Entity();
-
     b2World& world = physics.getWorld();
-    b2BodyDef playerBodyDef;
-    playerBodyDef.position.Set(0.f, 0.f);
-    player->body = world.CreateBody(&playerBodyDef);
-    player->setName("Player");
-    player->addTag("Player");
-    player->addComponent(new SphereRenderer(*player, 0.01f));
-    player->addComponent(new PlayerInput(*player, 8000.f));
 
-    entities.push_back(new Wall(world, b2Vec2(-1.f, -0.5f), b2Vec2(1.f, -0.4f)));
-    entities.push_back(player);
+    auto ball = new Entity(world, b2Vec2(-0.2f, 0.2f), b2Vec2(0.2f, -0.2f));
+    ball->setName("ball");
+    ball->addComponent(new PlayerInput(*ball, 0.0018f));
+    ball->addComponent(new SphereRenderer(*ball, 0.2f, {0.f, 1.f, 1.f}));
+    ball->addComponent(new BoxCollider(*ball));
+
+    auto wall1 = new Entity(world, b2Vec2(-1.f, 1.f), b2Vec2(1.f, 0.8f));
+    wall1->setName("wall1");
+    wall1->addComponent(new BoxCollider(*wall1));
+    wall1->addComponent(new BoxRenderer(*wall1, {1.f, 0.2f}, {1.f, 0.f, 0.f}));
+
+    auto wall2 = new Entity(world, b2Vec2(-1.f, 1.f), b2Vec2(-0.8f, -1.f));
+    wall2->setName("wall2");
+    wall2->addComponent(new BoxCollider(*wall2));
+    wall2->addComponent(new BoxRenderer(*wall2, {0.2f, 1.f}, {1.f, 0.f, 1.f}));
+
+    auto wall3 = new Entity(world, b2Vec2(0.8f, 1.f), b2Vec2(1.f, -1.f));
+    wall3->setName("wall3");
+    wall3->addComponent(new BoxCollider(*wall3));
+    wall3->addComponent(new BoxRenderer(*wall3, {0.2f, 1.f}, {0.f, 1.f, 0.f}));
+
+    auto wall4 = new Entity(world, b2Vec2(-1.f, -0.8f), b2Vec2(1.f, -1.f));
+    wall4->setName("wall4");
+    wall4->addComponent(new BoxCollider(*wall4));
+    wall4->addComponent(new BoxRenderer(*wall4, {1.f, 0.2f}, {1.f, 1.f, 0.f}));
+
+    entities.push_back(ball);
+    entities.push_back(wall1);
+    entities.push_back(wall2);
+    entities.push_back(wall3);
+    entities.push_back(wall4);
 
     for (auto i : entities)
         i->initialize();
@@ -40,12 +60,8 @@ void Game::update(GLFWwindow* window, float deltaTime)
 {
     physics.update(deltaTime);
 
-    Entity* player = getEntityWithName("Player");
-
     for (auto entity : entities)
         entity->update(window, deltaTime);
-
-    std::cout << player->body->GetTransform().p.x << ", " << player->body->GetTransform().p.y << std::endl;
 }
 
 void Game::render()

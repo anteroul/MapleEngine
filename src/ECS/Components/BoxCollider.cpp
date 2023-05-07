@@ -1,14 +1,14 @@
-#include "WallCollision.h"
+#include "BoxCollider.h"
+#include "../../Game.h"
 
-void WallCollision::initialize() {
-    renderer = getComponent<RecRenderer>();
+void BoxCollider::initialize() {
+    renderer = getComponent<BoxRenderer>();
 
     Physics& physics = Game::getInstance().getPhysics();
     physics.collisionHandler(this, [this](Entity *collidedWith, b2Contact *contact)
     {
-        printf("ZOMG COLLISION %s!\n", collidedWith->getName().c_str());
+        printf("Collision detected %s!\n", collidedWith->getName().c_str());
         b2WorldManifold worldManifold;
         contact->GetWorldManifold(&worldManifold);
-        renderer->startBlinkAt(worldManifold.points[0]);
     });
 }

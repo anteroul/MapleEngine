@@ -10,7 +10,7 @@ struct CollisionHandler : b2ContactListener {
     typedef std::function<void(Entity*, b2Contact*)> Handler;
     std::map<b2Body*, Handler> handlers;
     void handleCollision(b2Contact* contact, b2Body* body, b2Body* second);
-    virtual void BeginContact(b2Contact* contact) override;
+    void BeginContact(b2Contact* contact) override;
 };
 
 
