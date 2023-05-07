@@ -4,6 +4,7 @@
 #include "ECS/Components/BoxCollider.h"
 #include "ECS/Components/SphereRenderer.h"
 #include "ECS/Components/MousePosition.h"
+#include "ECS/Components/Gravity.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
 #include <iostream>
@@ -27,19 +28,22 @@ void Game::initialize()
     ball->addTag("Player");
     ball->addComponent(new PlayerInput(*ball, 0.0018f));
     ball->addComponent(new SphereRenderer(*ball, 0.2f, {0.f, 1.f, 1.f}));
+    ball->addComponent(new Gravity(*ball, world));
 
     auto cursor = new Entity(world, b2Vec2(0.f, 0.f), b2Vec2(0.f, 0.f));
     cursor->setName("cursor");
     cursor->addComponent(new MousePosition(*cursor));
     cursor->addComponent(new BoxRenderer(*cursor, {0.01f, 0.01f}, {1.f, 0.f, 0.f}));
 
-    auto rec1 = new Entity(world, b2Vec2(-0.8f, 0.5f), b2Vec2(-0.7f, 0.4f));
+    auto rec1 = new Entity(world, b2Vec2(-0.8f, 0.5f), b2Vec2(-0.7f, 0.3f));
     rec1->setName("rectangle");
-    rec1->addComponent(new BoxRenderer(*rec1, {0.1f, 0.1f}, {0.f, 1.f, 0.f}));
+    rec1->addComponent(new BoxRenderer(*rec1, {0.1f, 0.2f}, {0.f, 1.f, 0.f}));
+    ball->addComponent(new Gravity(*rec1, world));
 
     auto rec2 = new Entity(world, b2Vec2(-0.8f, -0.5f), b2Vec2(0.8f, -0.4f));
     rec2->setName("rectangle");
-    rec2->addComponent(new BoxCollider(*rec2));
+    rec2->addComponent(new BoxCollider(*rec2, *ball));
+    rec2->addComponent(new BoxCollider(*rec2, *rec1));
     rec2->addComponent(new BoxRenderer(*rec2, {1.f, 0.1f}, {1.f, 1.f, 0.f}));
 
     entities.push_back(ball);

@@ -4,9 +4,13 @@
 #include "../Component.h"
 #include "BoxRenderer.h"
 
-struct BoxCollider : public Component {
-    BoxCollider(Entity& owner) : Component(owner) {};
+class BoxCollider : public Component {
+public:
+    BoxCollider(Entity& owner, Entity& other);
     void initialize() override;
+    void update(GLFWwindow* window, float deltaTime) override;
+private:
+    Entity* m_Other;
 };
 
 
