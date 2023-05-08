@@ -41,7 +41,7 @@ void Game::initialize()
     ball->addComponent(new Gravity(*rec1, world));
 
     auto rec2 = new Entity(world, b2Vec2(-0.8f, -0.5f), b2Vec2(0.8f, -0.4f));
-    rec2->setName("rectangle");
+    rec2->setName("ground");
     rec2->addComponent(new BoxCollider(*rec2, *ball));
     rec2->addComponent(new BoxCollider(*rec2, *rec1));
     rec2->addComponent(new BoxRenderer(*rec2, {1.f, 0.1f}, {1.f, 1.f, 0.f}));
@@ -58,10 +58,22 @@ void Game::initialize()
 /// Update all entites
 void Game::update(GLFWwindow* window, float deltaTime)
 {
-    auto player = getEntityWithName("ball");
+    // auto player = getEntityWithName("ball");
 
+    /*
     if (player != nullptr)
         std::cout << "Player position: " << player->body->GetPosition().x << ", " << player->body->GetPosition().y << std::endl;
+    */
+
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+    {
+        auto cursor = getEntityWithName("cursor");
+        auto gameObject = new Entity(physics.getWorld(), cursor->body->GetPosition(),cursor->body->GetPosition());
+        gameObject->addComponent(new Gravity(*gameObject, physics.getWorld()));
+        gameObject->addComponent(new BoxRenderer(*gameObject, {0.1f, 0.2f}, {1.f, 0.f, 0.f}));
+        getEntityWithName("ground")->addComponent(new BoxCollider(*getEntityWithName("ground"), *gameObject));
+        entities.push_back(gameObject);
+    }
 
     for (auto entity : entities)
         entity->update(window, deltaTime);
