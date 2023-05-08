@@ -7,7 +7,6 @@
 class BoxCollider : public Component {
 public:
     BoxCollider(Entity& owner, Entity& other);
-    void initialize() override;
     void update(GLFWwindow* window, float deltaTime) override;
 private:
     Entity* m_Other;

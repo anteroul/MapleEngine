@@ -22,12 +22,8 @@ add_executable(MapleEngine
         src/Log/msg.h
         src/Game.cpp
         src/Game.h
-        src/Physics/CollisionHandler.cpp
-        src/Physics/CollisionHandler.h
-        src/Physics/Mesh.cpp
-        src/Physics/Mesh.h
-        src/Physics/Physics.cpp
-        src/Physics/Physics.h
+        src/Physics.cpp
+        src/Physics.h
         src/ECS/Entity.cpp
         src/ECS/Entity.h
         src/ECS/Component.h
@@ -40,6 +36,8 @@ add_executable(MapleEngine
         src/ECS/Components/SphereRenderer.cpp
         src/ECS/Components/SphereRenderer.h
         src/ECS/Components/MousePosition.cpp
-        src/ECS/Components/MousePosition.h src/ECS/Components/Gravity.cpp src/ECS/Components/Gravity.h)
+        src/ECS/Components/MousePosition.h
+        src/ECS/Components/Gravity.cpp
+        src/ECS/Components/Gravity.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

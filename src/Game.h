@@ -1,7 +1,7 @@
 #ifndef MAPLEENGINE_GAME_H
 #define MAPLEENGINE_GAME_H
 
-#include "Physics/Physics.h"
+#include "Physics.h"
 #include "ECS/Entity.h"
 #include <list>
 #include <map>

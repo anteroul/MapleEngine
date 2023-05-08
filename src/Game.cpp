@@ -58,7 +58,6 @@ void Game::initialize()
 /// Update all entites
 void Game::update(GLFWwindow* window, float deltaTime)
 {
-    physics.update(deltaTime);
     auto player = getEntityWithName("ball");
 
     if (player != nullptr)
