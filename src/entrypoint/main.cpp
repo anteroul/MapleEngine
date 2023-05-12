@@ -4,7 +4,7 @@
 #pragma clang diagnostic ignored "-Wwritable-strings"
 
 int main() {
-    App app(1280, 720, "Maple Engine");
+    App app(580, 560, "Maple Engine");
     app.Launch();
     return 0;
 }

@@ -12,7 +12,10 @@ void Gravity::update(GLFWwindow *window, float deltaTime)
         m_World->Step(timeStep, velocityIterations, positionIterations);
         b2Vec2 position = body->GetPosition();
         float angle = body->GetAngle();
-        //printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+
+        if (body->GetPosition().y < ground->GetPosition().y + 0.3f)
+            body->SetTransform(b2Vec2(position.x, position.y + 0.001f), angle);
+        else
+            body->SetTransform(b2Vec2(position.x, position.y - 0.001f), angle);
     }
-    body->SetTransform(b2Vec2(body->GetPosition().x, body->GetPosition().y - 0.01f), body->GetAngle());
 }

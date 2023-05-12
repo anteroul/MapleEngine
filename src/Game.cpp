@@ -26,9 +26,8 @@ void Game::initialize()
     auto ball = new Entity(world, b2Vec2(-0.2f, 0.2f), b2Vec2(0.2f, -0.2f));
     ball->setName("ball");
     ball->addTag("Player");
-    ball->addComponent(new PlayerInput(*ball, 0.0018f));
+    ball->addComponent(new PlayerInput(*ball, 0.018f));
     ball->addComponent(new SphereRenderer(*ball, 0.2f, {0.f, 1.f, 1.f}));
-    ball->addComponent(new Gravity(*ball, world));
 
     auto cursor = new Entity(world, b2Vec2(0.f, 0.f), b2Vec2(0.f, 0.f));
     cursor->setName("cursor");
@@ -38,12 +37,14 @@ void Game::initialize()
     auto rec1 = new Entity(world, b2Vec2(-0.8f, 0.5f), b2Vec2(-0.7f, 0.3f));
     rec1->setName("rectangle");
     rec1->addComponent(new BoxRenderer(*rec1, {0.1f, 0.2f}, {0.f, 1.f, 0.f}));
-    ball->addComponent(new Gravity(*rec1, world));
 
     auto rec2 = new Entity(world, b2Vec2(-0.8f, -0.5f), b2Vec2(0.8f, -0.4f));
     rec2->setName("ground");
-    rec2->addComponent(new BoxCollider(*rec2, *ball));
-    rec2->addComponent(new BoxCollider(*rec2, *rec1));
+    rec1->addComponent(new BoxCollider(*rec1, *cursor, world));
+    rec2->addComponent(new BoxCollider(*rec2, *cursor, world));
+    ball->addComponent(new BoxCollider(*ball, *cursor, world));
+    ball->addComponent(new Gravity(*ball, *rec2, world));
+    rec1->addComponent(new Gravity(*rec1, *rec2, world));
     rec2->addComponent(new BoxRenderer(*rec2, {1.f, 0.1f}, {1.f, 1.f, 0.f}));
 
     entities.push_back(ball);
@@ -65,13 +66,17 @@ void Game::update(GLFWwindow* window, float deltaTime)
         std::cout << "Player position: " << player->body->GetPosition().x << ", " << player->body->GetPosition().y << std::endl;
     */
 
+    physics.update(deltaTime);
+
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
     {
         auto cursor = getEntityWithName("cursor");
+        auto ground = getEntityWithName("ground");
         auto gameObject = new Entity(physics.getWorld(), cursor->body->GetPosition(),cursor->body->GetPosition());
-        gameObject->addComponent(new Gravity(*gameObject, physics.getWorld()));
+        gameObject->addComponent(new Gravity(*gameObject, *ground, physics.getWorld()));
+        gameObject->addComponent(new BoxCollider(*gameObject, *cursor, physics.getWorld()));
         gameObject->addComponent(new BoxRenderer(*gameObject, {0.1f, 0.2f}, {1.f, 0.f, 0.f}));
-        getEntityWithName("ground")->addComponent(new BoxCollider(*getEntityWithName("ground"), *gameObject));
+        getEntityWithName("ground")->addComponent(new BoxCollider(*getEntityWithName("ground"), *gameObject, physics.getWorld()));
         entities.push_back(gameObject);
     }
 
