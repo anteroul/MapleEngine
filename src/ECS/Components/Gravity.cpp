@@ -1,5 +1,7 @@
 #include "Gravity.h"
 
+#define GRAVITY (9.81 / 10000)
+
 void Gravity::update(GLFWwindow *window, float deltaTime)
 {
     b2Body* body = getBody();
@@ -14,8 +16,8 @@ void Gravity::update(GLFWwindow *window, float deltaTime)
         float angle = body->GetAngle();
 
         if (body->GetPosition().y < ground->GetPosition().y + 0.3f)
-            body->SetTransform(b2Vec2(position.x, position.y + 0.001f), angle);
+            body->SetTransform(b2Vec2(position.x, position.y + GRAVITY), angle);
         else
-            body->SetTransform(b2Vec2(position.x, position.y - 0.001f), angle);
+            body->SetTransform(b2Vec2(position.x, position.y - GRAVITY), angle);
     }
 }
