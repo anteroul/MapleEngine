@@ -52,7 +52,6 @@ void Game::initialize()
     ball->addComponent(new BoxCollider(*ball, *cursor, world));
     rec->addComponent(new BoxCollider(*rec, *cursor, world));
     another_rec->addComponent(new BoxCollider(*another_rec, *cursor, world));
-    ground->addComponent(new BoxCollider(*ground, *cursor, world));
     sphere->addComponent(new BoxCollider(*sphere, *cursor, world));
 
     ball->addComponent(new Gravity(*ball, *ground, world));
