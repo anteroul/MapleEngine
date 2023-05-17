@@ -4,9 +4,11 @@
 #include "../../Game.h"
 #include "../Component.h"
 
-struct PlayerInput : public Component {
+class PlayerInput : public Component {
+public:
     PlayerInput(Entity &owner, float speed);
     void update(GLFWwindow* window, float deltaTime) override;
+private:
     float m_Speed;
 };
 

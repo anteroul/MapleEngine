@@ -38,6 +38,8 @@ add_executable(MapleEngine
         src/ECS/Components/MousePosition.cpp
         src/ECS/Components/MousePosition.h
         src/ECS/Components/Gravity.cpp
-        src/ECS/Components/Gravity.h)
+        src/ECS/Components/Gravity.h
+        src/ECS/Components/Shader.cpp
+        src/ECS/Components/Shader.h)
 
 target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

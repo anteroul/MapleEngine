@@ -2,9 +2,7 @@
 
 /// \param owner Entity containing this component
 MousePosition::MousePosition(Entity &owner) : Component(owner)
-{
-    body = owner.body;
-}
+{}
 
 /// Sets the entity position as current cursor position.
 /// \param window OpenGL window context.
@@ -24,5 +22,6 @@ void MousePosition::update(GLFWwindow *window, float deltaTime)
     y *= -1;
     y /= (height / 2);
 
-    body->SetTransform(b2Vec2(x, y), body->GetAngle());
+    b2Body* body = getBody();
+    body->SetTransform(b2Vec2((float)x, (float)y), body->GetAngle());
 }
