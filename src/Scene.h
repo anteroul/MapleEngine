@@ -1,21 +1,27 @@
-#ifndef MAPLEENGINE_GAME_H
-#define MAPLEENGINE_GAME_H
+#ifndef MAPLEENGINE_SCENE_H
+#define MAPLEENGINE_SCENE_H
 
 #include "Physics.h"
 #include "ECS/Entity.h"
+#include <GLFW/glfw3.h>
+#include <algorithm>
+#include <iostream>
 #include <list>
 #include <map>
 
-class Game {
+class Scene {
 public:
-    static Game& getInstance();
+    static Scene& getInstance();
     static b2Vec2 getSize() { return b2Vec2(10., 7.5); }
-    /// Game life cycle
+
+    /// Scene life cycle
     void initialize();
     void update(GLFWwindow* window, float deltaTime);
-    void render();
+    void render(GLFWwindow* window);
+
     /// Get 2D physics (in progress)
     Physics& getPhysics() { return physics; }
+
     /// Entity handling
     void setEntityName(Entity* entity, const std::string& name);
     void removeEntityName(Entity* entity, const std::string& name);
@@ -25,12 +31,12 @@ public:
     std::list<Entity*> getEntitiesWithTag(const std::string& tag) const;
     Entity* getEntityWithTag(const std::string& tag) const;
 private:
-    static Game gameInstance;
-    std::list<Entity*> entities;
+    static Scene gameInstance;
+    std::vector<Entity*> entities;
     std::map<std::string, Entity*> names;
     std::map<std::string, std::list<Entity*>> tags;
     Physics physics;
-    Game();
+    Scene();
 };
 
-#endif //MAPLEENGINE_GAME_H
+#endif //MAPLEENGINE_SCENE_H

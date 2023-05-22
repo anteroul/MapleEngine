@@ -1,53 +1,50 @@
-#include "Game.h"
+#include "Scene.h"
 #include "ECS/Components/PlayerInput.h"
 #include "ECS/Components/BoxRenderer.h"
 #include "ECS/Components/BoxCollider.h"
 #include "ECS/Components/SphereRenderer.h"
 #include "ECS/Components/MousePosition.h"
 #include "ECS/Components/Gravity.h"
-#include <GLFW/glfw3.h>
-#include <algorithm>
-#include <iostream>
 
-Game Game::gameInstance;
+Scene Scene::gameInstance;
 
-Game& Game::getInstance()
+Scene& Scene::getInstance()
 {
     return gameInstance;
 }
 
-Game::Game() = default;
+Scene::Scene() = default;
 
 /// Initialize all entities
-void Game::initialize()
+void Scene::initialize()
 {
     b2World& world = physics.getWorld();
 
-    auto ball = new Entity(world, b2Vec2(0.f, 0.f), b2Vec2(0.2f, -0.2f));
+    auto ball = new Entity(world, b2Vec2(-0.2f, 0.2f), b2Vec2(0.2f, -0.2f));
     ball->setName("ball");
     ball->addTag("Player");
     ball->addComponent(new PlayerInput(*ball, 0.018f));
-    ball->addComponent(new SphereRenderer(*ball, 0.2f, {0.f, 1.f, 1.f}));
+    ball->addComponent(new SphereRenderer(*ball, {0.f, 1.f, 1.f}));
 
-    auto cursor = new Entity(world, b2Vec2(0.f, 0.f), b2Vec2(0.f, 0.f));
+    auto cursor = new Entity(world, b2Vec2(-0.01f, -0.01f), b2Vec2(0.01f, 0.01f));
     cursor->setName("cursor");
     cursor->addComponent(new MousePosition(*cursor));
-    cursor->addComponent(new BoxRenderer(*cursor, {0.01f, 0.01f}, {1.f, 0.f, 0.f}));
+    cursor->addComponent(new BoxRenderer(*cursor, {1.f, 0.f, 0.f}));
 
-    auto rec = new Entity(world, b2Vec2(-0.8f, 0.5f), b2Vec2(-0.7f, 0.3f));
+    auto rec = new Entity(world, b2Vec2(-0.8f, 0.5f), b2Vec2(-0.5f, 0.2f));
     rec->setName("rectangle");
-    rec->addComponent(new BoxRenderer(*rec, {0.1f, 0.2f}, {0.f, 1.f, 0.f}));
+    rec->addComponent(new BoxRenderer(*rec, {0.f, 1.f, 0.f}));
 
-    auto another_rec = new Entity(world, b2Vec2(0.8f, 0.5f), b2Vec2(0.9f, 0.3f));
+    auto another_rec = new Entity(world, b2Vec2(0.6f, 0.5f), b2Vec2(0.9f, 0.2f));
     another_rec->setName("rectangle");
-    another_rec->addComponent(new BoxRenderer(*another_rec, {0.1f, 0.2f}, {1.f, 1.f, 0.f}));
+    another_rec->addComponent(new BoxRenderer(*another_rec, {1.f, 0.5f, 0.f}));
 
-    auto sphere = new Entity(world, b2Vec2(0.1f, 0.4f), b2Vec2(0.2f, -0.2f));
-    sphere->addComponent(new SphereRenderer(*sphere, 0.2f, {1.f, 0.f, 1.f}));
+    auto sphere = new Entity(world, b2Vec2(0.f, -0.2f), b2Vec2(0.4f, 0.2f));
+    sphere->addComponent(new SphereRenderer(*sphere, {1.f, 0.f, 1.f}));
 
-    auto ground = new Entity(world, b2Vec2(-0.8f, -0.5f), b2Vec2(0.8f, -0.4f));
+    auto ground = new Entity(world, b2Vec2(-2.f, -0.4f), b2Vec2(2.f, -0.8f));
     ground->setName("ground");
-    ground->addComponent(new BoxRenderer(*ground, {1.f, 0.1f}, {1.f, 1.f, 0.f}));
+    ground->addComponent(new BoxRenderer(*ground, {1.f, 1.f, 0.f}));
 
     ball->addComponent(new BoxCollider(*ball, *cursor, world));
     rec->addComponent(new BoxCollider(*rec, *cursor, world));
@@ -71,7 +68,7 @@ void Game::initialize()
 }
 
 /// Update all entites
-void Game::update(GLFWwindow* window, float deltaTime)
+void Scene::update(GLFWwindow* window, float deltaTime)
 {
     physics.update(deltaTime);
 
@@ -79,10 +76,17 @@ void Game::update(GLFWwindow* window, float deltaTime)
     {
         auto cursor = getEntityWithName("cursor");
         auto ground = getEntityWithName("ground");
-        auto gameObject = new Entity(physics.getWorld(), cursor->body->GetPosition(),cursor->body->GetPosition());
+
+        auto gameObject = new Entity
+                (
+                        physics.getWorld(),
+                        b2Vec2(cursor->body->GetPosition().x - 0.2f, cursor->body->GetPosition().y + 0.2f),
+                        b2Vec2(cursor->body->GetPosition().x + 0.2f, cursor->body->GetPosition().y - 0.2f)
+                );
+
         gameObject->addComponent(new Gravity(*gameObject, *ground, physics.getWorld()));
         gameObject->addComponent(new BoxCollider(*gameObject, *cursor, physics.getWorld()));
-        gameObject->addComponent(new BoxRenderer(*gameObject, {0.1f, 0.2f}, {1.f, 0.f, 0.f}));
+        gameObject->addComponent(new BoxRenderer(*gameObject, {1.f, 0.f, 0.f}));
         entities.push_back(gameObject);
     }
 
@@ -91,23 +95,28 @@ void Game::update(GLFWwindow* window, float deltaTime)
 }
 
 /// Render all entities
-void Game::render()
+void Scene::render(GLFWwindow* window)
 {
+    glClearColor(0.f, 0.f, 0.f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     for (auto entity : entities)
         entity->render();
+
+    glfwSwapBuffers(window);
 }
 
-void Game::setEntityName(Entity* entity, const std::string& name)
+void Scene::setEntityName(Entity* entity, const std::string& name)
 {
     names.insert(std::pair<std::string, Entity*>(name, entity));
 }
 
-void Game::removeEntityName(Entity* entity, const std::string& name)
+void Scene::removeEntityName(Entity* entity, const std::string& name)
 {
     names.erase(name);
 }
 
-Entity* Game::getEntityWithName(const std::string& name) const
+Entity* Scene::getEntityWithName(const std::string& name) const
 {
     auto it = names.find(name);
 
@@ -117,7 +126,7 @@ Entity* Game::getEntityWithName(const std::string& name) const
         return it->second;
 }
 
-void Game::addEntityTag(Entity* entity, const std::string& tag)
+void Scene::addEntityTag(Entity* entity, const std::string& tag)
 {
     auto it = tags.find(tag);
 
@@ -130,7 +139,7 @@ void Game::addEntityTag(Entity* entity, const std::string& tag)
     it->second.push_back(entity);
 }
 
-void Game::removeEntityTag(Entity* entity, const std::string& tag)
+void Scene::removeEntityTag(Entity* entity, const std::string& tag)
 {
     auto it = tags.find(tag);
 
@@ -146,7 +155,7 @@ void Game::removeEntityTag(Entity* entity, const std::string& tag)
     entities.erase(entityIt);
 }
 
-std::list<Entity*> Game::getEntitiesWithTag(const std::string& tag) const
+std::list<Entity*> Scene::getEntitiesWithTag(const std::string& tag) const
 {
     auto it = tags.find(tag);
 
@@ -156,7 +165,7 @@ std::list<Entity*> Game::getEntitiesWithTag(const std::string& tag) const
         return it->second;
 }
 
-Entity* Game::getEntityWithTag(const std::string& tag) const
+Entity* Scene::getEntityWithTag(const std::string& tag) const
 {
     auto entities = getEntitiesWithTag(tag);
     auto it = entities.begin();

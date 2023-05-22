@@ -7,11 +7,11 @@
 
 class SphereRenderer : public Component {
 public:
-    SphereRenderer(Entity& owner, float radius, glm::vec3 colour);
+    SphereRenderer(Entity& owner, glm::vec3 colour);
     void render() const override;
     float m_Radius;
 private:
-    glm::vec3 m_Colour;
+    glm::vec3 m_Colour{};
     GLUquadric *m_Quadric;
 };
 

@@ -6,12 +6,12 @@
 
 class BoxRenderer : public Component {
 public:
-    BoxRenderer(Entity& owner, glm::vec2 size, glm::vec3 colour);
-    ~BoxRenderer();
+    BoxRenderer(Entity& owner, glm::vec3 colour);
+    ~BoxRenderer() override;
     void render() const override;
 private:
-    glm::vec2 m_Size;
-    glm::vec3 m_Colour;
+    b2Vec2 m_Size;
+    glm::vec3 m_Colour{};
 };
 
 

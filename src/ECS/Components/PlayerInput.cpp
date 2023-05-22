@@ -9,7 +9,7 @@ PlayerInput::PlayerInput(Entity &owner, float speed) : Component(owner)
 
 /// Move entity with arrow keys.
 /// \param window OpenGL window context.
-/// \param deltaTime Game frame time.
+/// \param deltaTime Scene frame time.
 void PlayerInput::update(GLFWwindow* window, float deltaTime)
 {
     b2Body* body = getBody();

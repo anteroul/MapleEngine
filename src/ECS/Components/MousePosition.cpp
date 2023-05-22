@@ -6,7 +6,7 @@ MousePosition::MousePosition(Entity &owner) : Component(owner)
 
 /// Sets the entity position as current cursor position.
 /// \param window OpenGL window context.
-/// \param deltaTime Game frame time.
+/// \param deltaTime Scene frame time.
 void MousePosition::update(GLFWwindow *window, float deltaTime)
 {
     double x, y;

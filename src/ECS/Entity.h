@@ -42,6 +42,7 @@ public:
     void addTag(const std::string& tag);
     void removeTag(const std::string& tag);
 
+    b2Vec2 size;
     b2Body* body;
 private:
     b2Body* createBoxBody(b2World& world, b2Vec2 origin, b2Vec2 extents);

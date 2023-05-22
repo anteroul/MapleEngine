@@ -13,6 +13,10 @@ find_package(glfw3 REQUIRED)
 include_directories(${GLFW_INCLUDE_DIRS})
 link_libraries(${GLFW_LIBRARY_DIRS})
 
+find_package(Freetype REQUIRED)
+include_directories(${FREETYPE_INCLUDE_DIRS})
+link_libraries(${FREETYPE_LIBRARY_DIRS})
+
 add_subdirectory(3rd_party/Box2D-cmake)
 
 add_executable(MapleEngine
@@ -20,8 +24,8 @@ add_executable(MapleEngine
         src/App.h
         src/App.cpp
         src/Log/msg.h
-        src/Game.cpp
-        src/Game.h
+        src/Scene.cpp
+        src/Scene.h
         src/Physics.cpp
         src/Physics.h
         src/ECS/Entity.cpp
@@ -40,6 +44,7 @@ add_executable(MapleEngine
         src/ECS/Components/Gravity.cpp
         src/ECS/Components/Gravity.h
         src/ECS/Components/Shader.cpp
-        src/ECS/Components/Shader.h)
+        src/ECS/Components/Shader.h
+        src/Utils.h)
 
-target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)
+target_link_libraries(MapleEngine PUBLIC ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${FREETYPE_LIBRARIES} ${lib/stb_image.h} -lglfw tobanteGaming::Box2D)

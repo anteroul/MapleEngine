@@ -1,17 +1,14 @@
 #include "App.h"
 #include "Log/msg.h"
-#include <cstdio>
-#include <cstdlib>
 
-App::App(unsigned int width, unsigned int height, char* windowTitle)
+App::App(unsigned int width, unsigned int height, char* windowTitle, bool fullscreen)
 {
-    glfwInit();
-    glfwSetErrorCallback(ThrowError);
-
     if (!glfwInit())
         ThrowError(EXIT_FAILURE, "Unable to initialize GLFW.");
     else
-        printf("%s \bSUCCESS: \t GLFW initialized successfully.\n", SUCCESS);
+        printf("%s \bSUCCESS: GLFW initialized successfully.\n", SUCCESS);
+
+    glfwSetErrorCallback(ThrowError);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -21,72 +18,79 @@ App::App(unsigned int width, unsigned int height, char* windowTitle)
     if (!window)
         ThrowError(EXIT_FAILURE, "Failed to create OpenGL context window.");
     else
-        printf("%s \bSUCCESS: \t Window created with a resolution of %u x %u.\n", SUCCESS, width, height);
+        printf("%s \bSUCCESS: Window created with a resolution of %u x %u.\n", ERROR);
 
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, HandleMouseMotion);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-    glewInit();
+    if (fullscreen)
+        glfwMaximizeWindow(window);
+
+    if (!glfwInit())
+        ThrowError(EXIT_FAILURE, "Unable to initialize GLEW.");
+    else
+        printf("%s \bSUCCESS: GLEW initialized successfully.\n", SUCCESS);
 }
 
 App::~App()
 {
+    glfwSetWindowShouldClose(window, true);
     glfwTerminate();
+    printf("%s \bSUCCESS: Applicated closed successfully.\n", SUCCESS);
 }
 
 void App::Launch()
 {
     int width, height;
-    glfwGetWindowSize(window, &width, &height);
-    printf("%s \bINFO: \t Application is now running!\n", INFO);
+    double frameCount = 0.0;
+    double totalTime = 0.0;
+    double FPS;
 
-    Game& game = Game::getInstance();
+    glfwGetWindowSize(window, &width, &height);
+    printf("%s \bINFO: Application is now running!\n", INFO);
+
+    Scene& game = Scene::getInstance();
     game.initialize();
 
     while (!ApplicationShouldClose())
+    {
+        double currentTime = glfwGetTime();
+        deltaTime = currentTime - newTime;
+        newTime = currentTime;
+
         RunApplication(game);
+
+        frameCount++;
+        totalTime += deltaTime;
+
+        if (totalTime >= 1.0)
+        {
+            FPS = frameCount / totalTime;
+            frameCount = 0.0;
+            totalTime = 0.0;
+            printf("%s FPS: %.2f\n", INFO, FPS);
+        }
+    }
 }
 
 ///  Main game loop
-void App::RunApplication(Game& game)
+void App::RunApplication(Scene& game)
 {
-    Update(game, glfwGetTime());
-    Render(game);
+    game.update(window, (float)deltaTime);
+    HandleMouseMotion(window, 0, 0);
+    game.render(window);
+    glfwPollEvents();
 }
 
 bool App::ApplicationShouldClose()
 {
-    if (glfwWindowShouldClose(window))
-        return true;
-
-    return false;
-}
-
-/// Update game logic
-void App::Update(Game& game, double cTime)
-{
-    double newTime = glfwGetTime();
-    double frameTime = newTime - cTime;
-    glfwPollEvents();
-    HandleKeyInput(window);
-    HandleMouseMotion(window, 0, 0);
-    game.update(window, (float)frameTime);
-}
-
-/// Render game
-void App::Render(Game& game)
-{
-    glClearColor(0.f, 0.f, 0.f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    game.render();
-    glfwSwapBuffers(window);
-}
-
-void App::HandleKeyInput(GLFWwindow *window)
-{
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    {
+        printf("%s \bINFO: Closing application.\n", WARNING);
+        return true;
+    }
+    return false;
 }
 
 void App::HandleMouseMotion(GLFWwindow *window, double xPos, double yPos)

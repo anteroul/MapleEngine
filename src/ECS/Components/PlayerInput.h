@@ -1,7 +1,7 @@
 #ifndef MAPLEENGINE_PLAYERINPUT_H
 #define MAPLEENGINE_PLAYERINPUT_H
 
-#include "../../Game.h"
+#include "../../Scene.h"
 #include "../Component.h"
 
 class PlayerInput : public Component {

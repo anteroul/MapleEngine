@@ -1,13 +1,13 @@
 #include "Entity.h"
 
-#include "../Game.h"
+#include "../Scene.h"
 #include "Component.h"
 
 Entity::Entity(b2World& world, b2Vec2 topLeft, b2Vec2 bottomRight) : m_Name("")
 {
     b2Vec2 extents = 1.f/2.f * b2Abs(topLeft - bottomRight);
     b2Vec2 origin = 1.f/2.f * (topLeft + bottomRight);
-
+    size = b2Vec2(extents.x, extents.y);
     body = createBoxBody(world, origin, extents);
     body->SetUserData(this);
 }
@@ -26,7 +26,7 @@ void Entity::initialize()
 
 /// Update all components linked to the entity.
 /// \param window Pointer to OpenGL window context
-/// \param deltaTime Game frame time
+/// \param deltaTime Scene frame time
 void Entity::update(GLFWwindow* window, float deltaTime)
 {
     for (auto component : m_Components)
@@ -47,7 +47,7 @@ void Entity::addComponent(Component *component)
 
 void Entity::setName(const std::string& name)
 {
-    Game& game = Game::getInstance();
+    Scene& game = Scene::getInstance();
 
     if (name.length() > 0)
     {
@@ -73,7 +73,7 @@ void Entity::addTag(const std::string& tag)
         return;
 
     m_Tags.insert(tag);
-    Game::getInstance().addEntityTag(this, tag);
+    Scene::getInstance().addEntityTag(this, tag);
 }
 
 void Entity::removeTag(const std::string& tag)
@@ -84,7 +84,7 @@ void Entity::removeTag(const std::string& tag)
         return;
 
     m_Tags.erase(tagIterator);
-    Game::getInstance().removeEntityTag(this, tag);
+    Scene::getInstance().removeEntityTag(this, tag);
 }
 
 /// Creates a box body for the entity

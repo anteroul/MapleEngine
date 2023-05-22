@@ -5,7 +5,7 @@
 
 class Component {
 public:
-    Component(Entity& owner) :m_Owner(owner) { }
+    Component(Entity& owner) :m_Owner(owner) {}
     virtual ~Component() {}
     /// Component life cycle
     virtual void initialize() {}

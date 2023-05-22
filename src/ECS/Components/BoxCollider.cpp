@@ -16,19 +16,32 @@ void BoxCollider::update(GLFWwindow *window, float deltaTime)
 {
     for (auto i : bodies)
     {
-        b2Vec2 pos1 = i->GetPosition();
-        b2Vec2 pos2 = self->body->GetPosition();
-
         if (i != ignored->body && self->getComponment<Gravity>())
         {
-            float distance = pos1.x + pos2.x;
+            b2Vec2 self_v1(self->body->GetPosition().x - (self->size.x / 2), self->body->GetPosition().y);
+            b2Vec2 self_v2(self->body->GetPosition().x + (self->size.x / 2), self->body->GetPosition().y);
+            b2Vec2 other_v1(i->GetPosition().x - (i->GetPosition().x / 2), i->GetPosition().y);
+            b2Vec2 other_v2(i->GetPosition().x + (i->GetPosition().x / 2), i->GetPosition().y);
 
-            if (distance < 0.01f || distance > -0.01f)
+            b2EdgeShape selfEdge, other;
+
+            selfEdge.Set(self_v1, other_v1);
+            other.Set(self_v2, other_v2);
+
+            if (b2TestOverlap(&selfEdge, 2, &other, 2, self->body->GetTransform(), i->GetTransform()))
             {
-                if (pos1.x < pos2.x)
-                    self->body->SetTransform(b2Vec2(pos2.x + 0.001f, pos2.y), self->body->GetAngle());
+                if (i->GetPosition().x > self->body->GetPosition().x)
+                {
+                    self->body->SetTransform(b2Vec2(self->body->GetPosition().x - 0.018f, self->body->GetPosition().y), self->body->GetAngle());
+                    i->SetTransform(b2Vec2(i->GetPosition().x + 0.018f, i->GetPosition().y), i->GetAngle());
+                    return;
+                }
                 else
-                    self->body->SetTransform(b2Vec2(pos2.x - 0.001f, pos2.y), self->body->GetAngle());
+                {
+                    self->body->SetTransform(b2Vec2(self->body->GetPosition().x + 0.018f, self->body->GetPosition().y), self->body->GetAngle());
+                    i->SetTransform(b2Vec2(i->GetPosition().x - 0.018f, i->GetPosition().y), i->GetAngle());
+                    return;
+                }
             }
         }
     }

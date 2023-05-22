@@ -3,9 +3,9 @@
 /// \param owner The entity containing this component
 /// \param size Rectangle size
 /// \param colour Rectangle colour
-BoxRenderer::BoxRenderer(Entity &owner, glm::vec2 size, glm::vec3 colour) : Component(owner)
+BoxRenderer::BoxRenderer(Entity &owner, glm::vec3 colour) : Component(owner)
 {
-    m_Size = size;
+    m_Size = owner.size;
     m_Colour = colour;
 }
 
@@ -21,10 +21,10 @@ void BoxRenderer::render() const
     glBegin(GL_QUADS);
     glTranslatef(position.x, position.y, 0.f);
     glColor3f(m_Colour.r, m_Colour.g, m_Colour.b);
-    glVertex2f(position.x - m_Size.x, position.y - m_Size.y);
-    glVertex2f(position.x - m_Size.x, position.y + m_Size.y);
-    glVertex2f(position.x + m_Size.x, position.y + m_Size.y);
-    glVertex2f(position.x + m_Size.x, position.y - m_Size.y);
+    glVertex2f(position.x - m_Size.x / 2, position.y - m_Size.y / 2);
+    glVertex2f(position.x - m_Size.x / 2, position.y + m_Size.y / 2);
+    glVertex2f(position.x + m_Size.x / 2, position.y + m_Size.y / 2);
+    glVertex2f(position.x + m_Size.x / 2, position.y - m_Size.y / 2);
     glEnd();
     glFlush();
 }
