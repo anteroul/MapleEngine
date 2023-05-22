@@ -14,6 +14,8 @@ BoxCollider::BoxCollider(Entity& owner, Entity& ignore, b2World& world) : Compon
 
 void BoxCollider::update(GLFWwindow *window, float deltaTime)
 {
+    b2Vec2 oldPos = self->body->GetPosition();
+
     for (auto i : bodies)
     {
         if (i != ignored->body && self->getComponment<Gravity>())
@@ -29,20 +31,7 @@ void BoxCollider::update(GLFWwindow *window, float deltaTime)
             other.Set(self_v2, other_v2);
 
             if (b2TestOverlap(&selfEdge, 2, &other, 2, self->body->GetTransform(), i->GetTransform()))
-            {
-                /*
-                if (i->GetPosition().x > self->body->GetPosition().x)
-                {
-                    self->body->SetTransform(b2Vec2(self->body->GetPosition().x - 0.018f, self->body->GetPosition().y), self->body->GetAngle());
-                    i->SetTransform(b2Vec2(i->GetPosition().x + 0.018f, i->GetPosition().y), i->GetAngle());
-                }
-                else
-                {
-                    self->body->SetTransform(b2Vec2(self->body->GetPosition().x + 0.018f, self->body->GetPosition().y), self->body->GetAngle());
-                    i->SetTransform(b2Vec2(i->GetPosition().x - 0.018f, i->GetPosition().y), i->GetAngle());
-                }
-                */
-            }
+                self->body->SetTransform(oldPos, self->body->GetAngle());
         }
     }
 }
