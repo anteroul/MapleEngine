@@ -17,8 +17,6 @@ App::App(unsigned int width, unsigned int height, char* windowTitle, bool fullsc
 
     if (!window)
         ThrowError(EXIT_FAILURE, "Failed to create OpenGL context window.");
-    else
-        printf("%s \bSUCCESS: Window created with a resolution of %u x %u.\n", ERROR);
 
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, HandleMouseMotion);

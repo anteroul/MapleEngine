@@ -30,18 +30,18 @@ void BoxCollider::update(GLFWwindow *window, float deltaTime)
 
             if (b2TestOverlap(&selfEdge, 2, &other, 2, self->body->GetTransform(), i->GetTransform()))
             {
+                /*
                 if (i->GetPosition().x > self->body->GetPosition().x)
                 {
                     self->body->SetTransform(b2Vec2(self->body->GetPosition().x - 0.018f, self->body->GetPosition().y), self->body->GetAngle());
                     i->SetTransform(b2Vec2(i->GetPosition().x + 0.018f, i->GetPosition().y), i->GetAngle());
-                    return;
                 }
                 else
                 {
                     self->body->SetTransform(b2Vec2(self->body->GetPosition().x + 0.018f, self->body->GetPosition().y), self->body->GetAngle());
                     i->SetTransform(b2Vec2(i->GetPosition().x - 0.018f, i->GetPosition().y), i->GetAngle());
-                    return;
                 }
+                */
             }
         }
     }
