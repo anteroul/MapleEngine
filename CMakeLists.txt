@@ -31,8 +31,6 @@ add_executable(MapleEngine
         src/ECS/Entity.cpp
         src/ECS/Entity.h
         src/ECS/Component.h
-        src/ECS/Components/BoxCollider.cpp
-        src/ECS/Components/BoxCollider.h
         src/ECS/Components/PlayerInput.cpp
         src/ECS/Components/PlayerInput.h
         src/ECS/Components/BoxRenderer.cpp

@@ -1,7 +1,6 @@
 #include "Scene.h"
 #include "ECS/Components/PlayerInput.h"
 #include "ECS/Components/BoxRenderer.h"
-#include "ECS/Components/BoxCollider.h"
 #include "ECS/Components/SphereRenderer.h"
 #include "ECS/Components/MousePosition.h"
 #include "ECS/Components/Gravity.h"
@@ -35,7 +34,7 @@ void Scene::initialize()
     rec->setName("rectangle");
     rec->addComponent(new BoxRenderer(*rec, {0.f, 1.f, 0.f}));
 
-    auto another_rec = new Entity(world, b2Vec2(0.6f, 0.5f), b2Vec2(0.9f, 0.2f));
+    auto another_rec = new Entity(world, b2Vec2(0.7f, 0.6f), b2Vec2(0.9f, 0.2f));
     another_rec->setName("rectangle");
     another_rec->addComponent(new BoxRenderer(*another_rec, {1.f, 0.5f, 0.f}));
 
@@ -45,11 +44,6 @@ void Scene::initialize()
     auto ground = new Entity(world, b2Vec2(-2.f, -0.4f), b2Vec2(2.f, -0.8f));
     ground->setName("ground");
     ground->addComponent(new BoxRenderer(*ground, {1.f, 1.f, 0.f}));
-
-    ball->addComponent(new BoxCollider(*ball, *cursor, world));
-    rec->addComponent(new BoxCollider(*rec, *cursor, world));
-    another_rec->addComponent(new BoxCollider(*another_rec, *cursor, world));
-    sphere->addComponent(new BoxCollider(*sphere, *cursor, world));
 
     ball->addComponent(new Gravity(*ball, *ground, world));
     rec->addComponent(new Gravity(*rec, *ground, world));
@@ -85,7 +79,6 @@ void Scene::update(GLFWwindow* window, float deltaTime)
                 );
 
         gameObject->addComponent(new Gravity(*gameObject, *ground, physics.getWorld()));
-        gameObject->addComponent(new BoxCollider(*gameObject, *cursor, physics.getWorld()));
         gameObject->addComponent(new BoxRenderer(*gameObject, {1.f, 0.f, 0.f}));
         entities.push_back(gameObject);
     }
